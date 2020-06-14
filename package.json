@@ -1,0 +1,29 @@
+{
+	"name": "api",
+	"version": "1.0.0",
+	"description": "NSFL Trading Card API",
+	"main": "api.js",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"cookie-session": "^1.4.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-session": "^1.17.1",
+		"http-status-codes": "^1.4.0",
+		"lodash": "^4.17.15",
+		"moment": "^2.26.0",
+		"moment-timezone": "^0.5.31",
+		"mongoose": "^5.9.18",
+		"passport": "^0.4.1",
+		"passport-google-oauth20": "^2.0.0"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"start": "nodemon api.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "GuthrieW",
+	"license": "ISC"
+}
