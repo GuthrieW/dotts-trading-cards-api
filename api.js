@@ -7,10 +7,10 @@ const HttpStatusCodes = require('http-status-codes');
 const Cors = require('cors');
 require('dotenv').config();
 const App = Express();
-const CardRoute = require('/nsfl-trading-cards/api/routes/card');
-const AuthRoute = require('/nsfl-trading-cards/api/routes/auth');
-const UserRoute = require('/nsfl-trading-cards/api/routes/user');
-const TeamRoute = require('/nsfl-trading-cards/api/routes/team');
+const CardRoute = require('/dotts-trading-cards-api/routes/card');
+const AuthRoute = require('/dotts-trading-cards-api/routes/auth');
+const UserRoute = require('/dotts-trading-cards-api/routes/user');
+const TeamRoute = require('/dotts-trading-cards-api/routes/team');
 
 const DAY_IN_MILLISECONDS = 86400000;
 const MAX_COOKIE_AGE = DAY_IN_MILLISECONDS;

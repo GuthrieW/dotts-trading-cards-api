@@ -1,7 +1,7 @@
 const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
-const User = require('/nsfl-trading-cards/api/models/User');
-const saveAction = require('/nsfl-trading-cards/api/common/saveAction');
+const User = require('/dotts-trading-cards-api/models/User');
+const saveAction = require('/dotts-trading-cards-api/common/saveAction');
 
 const Router = Express.Router();
 

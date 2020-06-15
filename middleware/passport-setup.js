@@ -1,7 +1,7 @@
 const Passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const Moment = require('moment-timezone');
-const User = require('/nsfl-trading-cards/api/models/User');
+const User = require('/dotts-trading-cards-api/models/User');
 
 Passport.serializeUser((user, done) => {
 	done(null, user.id);
