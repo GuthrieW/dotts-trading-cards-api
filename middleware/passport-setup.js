@@ -30,8 +30,11 @@ Passport.use(
 				console.log('foundUser');
 
 				if (foundUser) {
+					console.log('found user');
 					done(null, foundUser);
 				} else {
+					console.log('did not find user');
+
 					const user = new User({
 						nsfl_username: '',
 						is_admin: false,
@@ -42,7 +45,12 @@ Passport.use(
 						creation_date: Moment.tz('America/Chicago').format(),
 						can_purchase_pack: true,
 					});
+
+					console.log('created user');
+
 					user.save().then((newUser) => {
+						console.log('saved user');
+
 						done(null, newUser);
 					});
 				}
