@@ -62,4 +62,6 @@ Mongoose.connect(
 	}
 );
 
-App.listen(PORT);
+App.listen(PORT, () => {
+	console.log('Listening on port: ', PORT);
+});
