@@ -14,7 +14,7 @@ const TeamRoute = require('/dotts-trading-cards-api/routes/team');
 
 const DAY_IN_MILLISECONDS = 86400000;
 const MAX_COOKIE_AGE = DAY_IN_MILLISECONDS;
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // CORS
 App.use(Cors({ credentials: true, origin: process.env.UI_URL }));
