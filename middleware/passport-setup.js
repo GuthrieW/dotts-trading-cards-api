@@ -26,12 +26,9 @@ Passport.use(
 		async (accessToken, refreshToken, profile, done) => {
 			console.log('GoogleStrategy');
 
-			try {
-				const users = await User.find();
+			User.find().then((users) => {
 				console.log(users);
-			} catch (error) {
-				console.log('sad');
-			}
+			});
 
 			User.findOne({ google_id: profile.id })
 				.then((foundUser) => {
