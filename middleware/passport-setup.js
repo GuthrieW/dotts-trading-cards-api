@@ -26,6 +26,8 @@ Passport.use(
 		async (accessToken, refreshToken, profile, done) => {
 			console.log('GoogleStrategy');
 
+			console.log('User', User);
+
 			User.find().then((users) => {
 				console.log(users);
 			});
