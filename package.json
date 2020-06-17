@@ -21,7 +21,8 @@
 	},
 	"devDependencies": {},
 	"scripts": {
-		"start": "nodemon api.js",
+		"start": "node api.js",
+		"dev": "nodemon api.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "GuthrieW",
