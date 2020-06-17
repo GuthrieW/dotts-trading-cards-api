@@ -25,6 +25,9 @@ Passport.use(
 		},
 		(accessToken, refreshToken, profile, done) => {
 			console.log('GoogleStrategy');
+			console.log(profile);
+			console.log(accessToken);
+			console.log(refreshToken);
 
 			User.findOne({ google_id: profile.id })
 				.then((foundUser) => {
