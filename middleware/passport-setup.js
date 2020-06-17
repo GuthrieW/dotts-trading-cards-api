@@ -23,13 +23,13 @@ Passport.use(
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL: process.env.API_URL + '/auth/google/callback',
 		},
-		(accessToken, refreshToken, profile, done) => {
+		async (accessToken, refreshToken, profile, done) => {
 			console.log('GoogleStrategy');
 			console.log(profile);
 			console.log(accessToken);
 			console.log(refreshToken);
 
-			User.findOne({ google_id: profile.id })
+			await User.findOne({ google_id: profile.id })
 				.then((foundUser) => {
 					console.log('foundUser');
 
