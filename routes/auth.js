@@ -22,7 +22,7 @@ Router.get(
 );
 
 Router.get(
-	'/google/callback/',
+	'/google/callback',
 	PassportGoogle.authenticate('google'),
 	(request, response) => {
 		response
