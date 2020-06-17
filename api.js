@@ -49,10 +49,6 @@ App.use('/auth', AuthRoute);
 App.use('/user', UserRoute);
 App.use('/team', TeamRoute);
 
-App.get('*', (request, response) => {
-	response.json({ message: 'success' });
-});
-
 // MonogDB Connection
 Mongoose.connect(
 	process.env.DB_CONNECTION,
