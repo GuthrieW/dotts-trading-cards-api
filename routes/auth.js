@@ -5,6 +5,7 @@ const PassportGoogle = require('./../middleware/passport-setup');
 const Router = Express.Router();
 
 const AuthorizationCheck = (request, response, next) => {
+	console.log('AuthorizationCheck');
 	if (request.user) {
 		next();
 	} else {
@@ -25,6 +26,8 @@ Router.get(
 	'/google/callback',
 	PassportGoogle.authenticate('google'),
 	(request, response) => {
+		console.log('/google/callback');
+
 		response
 			.status(HttpStatusCodes.OK)
 			.redirect(`${process.env.UI_URL}/open-packs`);
@@ -32,6 +35,8 @@ Router.get(
 );
 
 Router.get('/check', AuthorizationCheck, (request, response) => {
+	console.log('/check');
+
 	response.status(HttpStatusCodes.OK).json({ message: 'User authorized' });
 });
 
