@@ -2,9 +2,9 @@ const Express = require('express');
 const Moment = require('moment-timezone');
 const HttpStatusCodes = require('http-status-codes');
 const _filter = require('lodash/filter');
-const User = require('/dotts-trading-cards-api/models/User');
-const Card = require('/dotts-trading-cards-api/models/Card');
-const saveAction = require('/dotts-trading-cards-api/common/saveAction');
+const User = require('./../models/User');
+const Card = require('./../models/Card');
+const saveAction = require('./../common/saveAction');
 
 const Router = Express.Router();
 

@@ -1,7 +1,7 @@
 const Express = require('express');
 const Moment = require('moment-timezone');
 const HttpStatusCodes = require('http-status-codes');
-const Team = require('/dotts-trading-cards-api/models/Team');
+const Team = require('./../models/Team');
 
 const Router = Express.Router();
 

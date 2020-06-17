@@ -1,6 +1,6 @@
 const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
-const PassportGoogle = require('/dotts-trading-cards-api/middleware/passport-setup');
+const PassportGoogle = require('./../middleware/passport-setup');
 
 const Router = Express.Router();
 
