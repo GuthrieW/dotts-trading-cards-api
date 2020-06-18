@@ -106,7 +106,9 @@ Router.post('/', async (request, response) => {
 			);
 			response.status(HttpStatusCodes.OK).json(savedCard);
 		} else {
-			response.status(HttpStatusCodes.OK).json({ message: 'failure' });
+			response
+				.status(HttpStatusCodes.UNAUTHORIZED)
+				.json({ message: 'unauthorized' });
 		}
 	} catch (error) {
 		console.error('POST ERROR: ', error);
