@@ -4,13 +4,10 @@ const Moment = require('moment-timezone');
 const User = require('./../models/User');
 
 Passport.serializeUser((user, done) => {
-	console.log('serializeUser');
 	done(null, user.id);
 });
 
 Passport.deserializeUser((_id, done) => {
-	console.log('deserializeUser');
-
 	User.findById(_id).then((user) => {
 		done(null, user);
 	});
@@ -24,24 +21,11 @@ Passport.use(
 			callbackURL: process.env.API_URL + '/auth/google/callback',
 		},
 		async (accessToken, refreshToken, profile, done) => {
-			console.log('GoogleStrategy');
-
-			console.log('User', User);
-
-			User.find().then((users) => {
-				console.log(users);
-			});
-
 			User.findOne({ google_id: profile.id })
 				.then((foundUser) => {
-					console.log('foundUser');
-
 					if (foundUser) {
-						console.log('found user');
 						done(null, foundUser);
 					} else {
-						console.log('did not find user');
-
 						const user = new User({
 							nsfl_username: '',
 							is_admin: false,
@@ -55,17 +39,13 @@ Passport.use(
 							can_purchase_pack: true,
 						});
 
-						console.log('created user');
-
 						user.save().then((newUser) => {
-							console.log('saved user');
-
 							done(null, newUser);
 						});
 					}
 				})
 				.catch((error) => {
-					console.log(error);
+					console.error(error);
 				});
 		}
 	)
