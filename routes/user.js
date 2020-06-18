@@ -103,7 +103,7 @@ Router.patch('/resetCanPurchasePack', async (request, response) => {
 	const currentUser = await User.findById(userId);
 	try {
 		if (currentUser.is_admin) {
-			await User.update(
+			await User.updateMany(
 				{ can_purchase_pack: false },
 				{ $set: { can_purchase_pack: true } }
 			);
