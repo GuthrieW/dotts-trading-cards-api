@@ -25,9 +25,7 @@ Router.get(
 	'/google/callback',
 	PassportGoogle.authenticate('google'),
 	(request, response) => {
-		response
-			.status(HttpStatusCodes.OK)
-			.redirect(`${process.env.UI_URL}/open-packs`);
+		response.status(HttpStatusCodes.OK).redirect(`${process.env.UI_URL}/`);
 	}
 );
 
