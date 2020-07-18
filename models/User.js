@@ -8,6 +8,14 @@ const User = Mongoose.Schema({
 		type: Boolean,
 		required: true,
 	},
+	is_processor: {
+		type: Boolean,
+		required: true,
+	},
+	is_submitter: {
+		type: Boolean,
+		required: true,
+	},
 	google_id: {
 		type: String,
 		required: true,

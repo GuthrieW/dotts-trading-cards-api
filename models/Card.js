@@ -28,6 +28,9 @@ const Card = Mongoose.Schema({
 	submission_date: {
 		type: Date,
 	},
+	approved: {
+		type: Boolean,
+	},
 });
 
 module.exports = Mongoose.model('Card', Card);
