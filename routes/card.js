@@ -8,6 +8,9 @@ const saveAction = require('./../common/saveAction');
 
 const Router = Express.Router();
 
+/*
+	Find a card by id
+*/
 Router.post('/card', async (request, response) => {
 	const cardInformation = request.body;
 	const cardId = cardInformation.cardId;
@@ -24,12 +27,50 @@ Router.post('/card', async (request, response) => {
 	return;
 });
 
+/*
+	Set approved to true for a given card
+*/
+Router.patch('/approveCard', async (request, response) => {
+	const cardInformation = request.body;
+	const cardId = cardInformation.cardId;
+
+	if (!request.user.is_admin && !request.user.is_processor) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: 'User not authorized',
+		});
+	}
+
+	try {
+		await Card.updateOne({ _id: cardId }, { $set: { approved: true } });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Get an unapproved card
+*/
+Router.get('/getUnapprovedCard', async (request, response) => {
+	try {
+		const card = await Card.findOne({ approved: false });
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Get all cards 
+*/
 Router.get('/cards', async (request, response) => {
 	try {
 		const cards = await Card.find();
 		response.status(HttpStatusCodes.OK).json(cards);
 	} catch (error) {
-		console.error(error);
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
@@ -38,13 +79,19 @@ Router.get('/cards', async (request, response) => {
 	return;
 });
 
+/*
+	Purchase a pack of cards
+*/
 Router.get('/purchasePack', async (request, response) => {
 	const userId = request.user._id;
 
 	let pulledCards = [];
 
 	try {
-		pulledCards = await Card.aggregate([{ $sample: { size: 6 } }]);
+		pulledCards = await Card.aggregate([
+			{ $match: { approved: { $ne: false } } },
+			{ $sample: { size: 6 } },
+		]);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
@@ -82,6 +129,9 @@ Router.get('/purchasePack', async (request, response) => {
 	return;
 });
 
+/*
+	Insert a new card into the database
+*/
 Router.post('/', async (request, response) => {
 	const userId = request.user._id;
 
@@ -94,6 +144,7 @@ Router.post('/', async (request, response) => {
 		collections_ids: cardInformation.collections_ids,
 		submission_username: cardInformation.submission_username,
 		submission_date: Moment.tz('America/Chicago').format(),
+		approved: false,
 	});
 
 	try {
@@ -111,7 +162,6 @@ Router.post('/', async (request, response) => {
 				.json({ message: 'unauthorized' });
 		}
 	} catch (error) {
-		console.error('POST ERROR: ', error);
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
@@ -120,6 +170,9 @@ Router.post('/', async (request, response) => {
 	return;
 });
 
+/*
+	Get all cards a the current user owns from a given team
+*/
 Router.post('/team', async (request, response) => {
 	const userId = request.user._id;
 	const cardInformation = request.body;
@@ -153,6 +206,9 @@ Router.post('/team', async (request, response) => {
 	return;
 });
 
+/*
+	Get all cards a given user owns from a given team
+*/
 Router.post('/team/:userId', async (request, response) => {
 	const userId = request.params.userId;
 	const cardInformation = request.body;
@@ -186,9 +242,18 @@ Router.post('/team/:userId', async (request, response) => {
 	return;
 });
 
+/*
+	Delete a card from the database
+*/
 Router.delete('/:cardId', async (request, response) => {
 	const cardId = request.params.cardId;
 	const userId = request.user._id;
+
+	if (!request.user.is_admin && !request.user.is_processor) {
+		response
+			.status(HttpStatusCodes.UNAUTHORIZED)
+			.json({ message: 'User not authorized' });
+	}
 
 	try {
 		const cardToRemove = Card.findById(cardId);

@@ -5,6 +5,9 @@ const saveAction = require('./../common/saveAction');
 
 const Router = Express.Router();
 
+/*
+	Return a user	
+*/
 Router.get('/', async (request, response) => {
 	try {
 		const users = await User.find();
@@ -19,11 +22,17 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
+/*
+	Return whether or not the user is an admin
+*/
 Router.get('/isAdmin', async (request, response) => {
 	const userIsAdmin = request.user.is_admin;
 	response.status(HttpStatusCodes.OK).json(userIsAdmin);
 });
 
+/*
+	Return the current user
+*/
 Router.get('/currentUser', async (request, response) => {
 	const userId = request.user._id;
 
@@ -38,6 +47,9 @@ Router.get('/currentUser', async (request, response) => {
 	}
 });
 
+/*
+	Return whether or not the current user is able to purchase a pack
+*/
 Router.get('/canPurchasePack', async (request, response) => {
 	const userId = request.user._id;
 
@@ -53,6 +65,9 @@ Router.get('/canPurchasePack', async (request, response) => {
 	}
 });
 
+/*
+	Return a user 
+*/
 Router.post('/', async (request, response) => {
 	const userInformation = request.body;
 	const userId = userInformation.userId;
@@ -68,6 +83,9 @@ Router.post('/', async (request, response) => {
 	}
 });
 
+/*
+	Update the user's NSFL username
+*/
 Router.patch('/username', async (request, response) => {
 	const userId = request.user._id;
 	const oldUsername = request.user.nsfl_username;
@@ -92,6 +110,9 @@ Router.patch('/username', async (request, response) => {
 	}
 });
 
+/*
+	Update all users to be able to purchase a pack
+*/
 Router.patch('/resetCanPurchasePack', async (request, response) => {
 	const userId = request.user._id;
 	saveAction(

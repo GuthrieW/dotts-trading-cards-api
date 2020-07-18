@@ -10,7 +10,6 @@ const App = Express();
 const CardRoute = require('./routes/card');
 const AuthRoute = require('./routes/auth');
 const UserRoute = require('./routes/user');
-const TeamRoute = require('./routes/team');
 
 const DAY_IN_MILLISECONDS = 86400000;
 const MAX_COOKIE_AGE = DAY_IN_MILLISECONDS;
@@ -47,7 +46,6 @@ App.use(Passport.session());
 App.use('/card', CardRoute);
 App.use('/auth', AuthRoute);
 App.use('/user', UserRoute);
-App.use('/team', TeamRoute);
 
 // MonogDB Connection
 Mongoose.connect(

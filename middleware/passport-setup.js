@@ -29,6 +29,8 @@ Passport.use(
 						const user = new User({
 							nsfl_username: '',
 							is_admin: false,
+							is_processor: false,
+							is_submitter: false,
 							google_id: profile.id,
 							google_display_name: profile.displayName,
 							completed_collections: [],
