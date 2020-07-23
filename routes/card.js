@@ -31,7 +31,7 @@ Router.post('/card', async (request, response) => {
 /*
 	Set approved to true for a given card
 */
-Router.patch('/approveCard', async (request, response) => {
+Router.post('/approveCard', async (request, response) => {
 	const cardInformation = request.body;
 	const cardId = cardInformation.cardId;
 
