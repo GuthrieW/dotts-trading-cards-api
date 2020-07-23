@@ -5,7 +5,6 @@ const _filter = require('lodash/filter');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
 const saveAction = require('./../common/saveAction');
-const { update } = require('lodash');
 
 const Router = Express.Router();
 
@@ -35,9 +34,6 @@ Router.post('/approveCard', async (request, response) => {
 	const cardInformation = request.body;
 	const cardId = cardInformation.cardId;
 
-	console.log(cardInformation);
-	console.log(cardId);
-
 	if (!request.user.is_admin && !request.user.is_processor) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
 			message: 'User not authorized',
@@ -45,11 +41,13 @@ Router.post('/approveCard', async (request, response) => {
 	}
 
 	try {
-		await Card.updateOne({ _id: cardId }, { $set: { approved: true } });
+		const card = await Card.updateOne(
+			{ _id: cardId },
+			{ $set: { approved: true } }
+		);
+		response.status(HttpStatusCodes.OK).json(card);
 	} catch (error) {
 		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-			cardid: cardId,
-			cardInfo: cardInformation,
 			message: error,
 		});
 	}
