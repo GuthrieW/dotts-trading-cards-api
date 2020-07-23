@@ -41,11 +41,8 @@ Router.post('/approveCard', async (request, response) => {
 	}
 
 	try {
-		const card = await Card.updateOne(
-			{ _id: cardId },
-			{ $set: { approved: true } }
-		);
-		response.status(HttpStatusCodes.OK).json(card);
+		await Card.updateOne({ _id: cardId }, { $set: { approved: true } });
+		response.status(HttpStatusCodes.OK).json({ message: 'success' });
 	} catch (error) {
 		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
 			message: error,
