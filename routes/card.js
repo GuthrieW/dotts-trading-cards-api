@@ -148,20 +148,20 @@ Router.post('/', async (request, response) => {
 		approved: false,
 	});
 
+	if (!request.user.is_admin && !request.user.is_submitter) {
+		response
+			.status(HttpStatusCodes.UNAUTHORIZED)
+			.json({ message: 'User not authorized' });
+	}
+
 	try {
-		if (request.user.is_admin) {
-			const savedCard = await card.save();
-			saveAction(
-				userId,
-				'Submit Card',
-				`${savedCard._id} added to cards collection`
-			);
-			response.status(HttpStatusCodes.OK).json(savedCard);
-		} else {
-			response
-				.status(HttpStatusCodes.UNAUTHORIZED)
-				.json({ message: 'unauthorized' });
-		}
+		const savedCard = await card.save();
+		saveAction(
+			userId,
+			'Submit Card',
+			`${savedCard._id} added to cards collection`
+		);
+		response.status(HttpStatusCodes.OK).json(savedCard);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
