@@ -54,7 +54,7 @@ Router.post('/approveCard', async (request, response) => {
 	Return all of the cards for a given player name
 */
 Router.get('/search/:playerName', async (request, response) => {
-	const playerName = request.param.playerName;
+	const playerName = request.params.playerName;
 	try {
 		const cards = await Card.find({
 			player_name: playerName,
