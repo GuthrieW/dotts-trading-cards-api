@@ -51,6 +51,23 @@ Router.post('/approveCard', async (request, response) => {
 });
 
 /*
+	Return all of the cards for a given player name
+*/
+Router.get('/search/:playerName', async (request, response) => {
+	const playerName = request.param.playerName;
+	try {
+		const cards = await Card.find({
+			player_name: playerName,
+		});
+		response.status(HttpStatusCodes.OK).json(cards);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
 	Get an unapproved card
 */
 Router.get('/getUnapprovedCard', async (request, response) => {
