@@ -90,7 +90,12 @@ Router.get('/purchasePack', async (request, response) => {
 
 	try {
 		pulledCards = await Card.aggregate([
-			{ $match: { approved: { $ne: false } } },
+			{
+				$match: {
+					approved: { $ne: false },
+					current_rotation: { $ne: false },
+				},
+			},
 			{ $sample: { size: 6 } },
 		]);
 	} catch (error) {
@@ -131,6 +136,46 @@ Router.get('/purchasePack', async (request, response) => {
 });
 
 /*
+	Remove a card from the current rotation of cards that can be pulled from packs
+*/
+Router.post('/removeFromRotation', async (request, response) => {
+	const cardInformation = request.body;
+	const cardId = cardInformation.cardId;
+
+	try {
+		const card = await Card.updateOne(
+			{ _id: cardId },
+			{ $set: { current_rotation: false } }
+		);
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Add a card to the current rotation of cards that can be pulled from packs
+*/
+Router.post('/addToRotation', async (request, response) => {
+	const cardInformation = request.body;
+	const cardId = cardInformation.cardId;
+
+	try {
+		const card = await Card.updateOne(
+			{ _id: cardId },
+			{ $set: { current_rotation: true } }
+		);
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
 	Insert a new card into the database
 */
 Router.post('/', async (request, response) => {
@@ -146,6 +191,7 @@ Router.post('/', async (request, response) => {
 		submission_username: cardInformation.submission_username,
 		submission_date: Moment.tz('America/Chicago').format(),
 		approved: false,
+		current_rotation: true,
 	});
 
 	if (!request.user.is_admin && !request.user.is_submitter) {
