@@ -31,6 +31,9 @@ const Card = Mongoose.Schema({
 	approved: {
 		type: Boolean,
 	},
+	current_rotation: {
+		type: Boolean,
+	},
 });
 
 module.exports = Mongoose.model('Card', Card);
