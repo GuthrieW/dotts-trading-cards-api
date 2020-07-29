@@ -9,25 +9,6 @@ const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
 /*
-	Find a card by id
-*/
-Router.post('/card', async (request, response) => {
-	const cardInformation = request.body;
-	const cardId = cardInformation.cardId;
-
-	try {
-		const card = await Card.findById(cardId);
-		response.status(HttpStatusCodes.OK).json(card);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-
-	return;
-});
-
-/*
 	Set approved to true for a given card
 */
 Router.post('/approveCard', async (request, response) => {
@@ -47,6 +28,21 @@ Router.post('/approveCard', async (request, response) => {
 		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
 			message: error,
 		});
+	}
+});
+
+/*
+	Find a card by id
+*/
+Router.get('/:cardId', async (request, response) => {
+	const cardId = request.params.cardId;
+	try {
+		const card = await Card.findById(cardId);
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
 	}
 });
 
@@ -268,6 +264,31 @@ Router.post('/team', async (request, response) => {
 	response.status(HttpStatusCodes.OK).json(filteredCards);
 
 	return;
+});
+
+Router.post('/update', async (request, response) => {
+	const cardInformation = request.body;
+	try {
+		const newCard = await Card.updateOne(
+			{ _id: cardInformation._id },
+			{
+				$set: {
+					submission_username: cardInformation.submission_username,
+					player_name: cardInformation.player_name,
+					player_team: cardInformation.player_team,
+					rarity: cardInformation.rarity,
+					image_url: cardInformation.image_url,
+					approved: cardInformation.approved,
+					current_rotation: cardInformation.current_rotation,
+				},
+			}
+		);
+		response.status(HttpStatusCodes.OK).json(newCard);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
 });
 
 /*
