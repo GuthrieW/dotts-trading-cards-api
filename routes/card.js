@@ -68,7 +68,7 @@ Router.get('/search/:playerName', async (request, response) => {
 */
 Router.get('/getUnapprovedCard', async (request, response) => {
 	try {
-		const card = await Card.findOne({ approved: false });
+		const card = await Card.findOne({ approved: false }).maxTimeMS(10000);
 		response.status(HttpStatusCodes.OK).json(card);
 	} catch (error) {
 		response
