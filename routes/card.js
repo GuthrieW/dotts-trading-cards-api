@@ -9,6 +9,20 @@ const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
 /*
+	Get an unapproved card
+*/
+Router.get('/unapproved', async (request, response) => {
+	try {
+		const card = await Card.find({ player_name: 'Givussafare Rubbe' });
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
 	Set approved to true for a given card
 */
 Router.post('/approveCard', async (request, response) => {
@@ -56,20 +70,6 @@ Router.get('/search/:playerName', async (request, response) => {
 			player_name: playerName,
 		});
 		response.status(HttpStatusCodes.OK).json(cards);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/*
-	Get an unapproved card
-*/
-Router.get('/getUnapprovedCard', async (request, response) => {
-	try {
-		const card = await Card.find({ player_name: 'Givussafare Rubbe' });
-		response.status(HttpStatusCodes.OK).json(card);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
