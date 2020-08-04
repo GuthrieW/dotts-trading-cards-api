@@ -13,7 +13,7 @@ const Router = Express.Router();
 */
 Router.get('/unapproved', async (request, response) => {
 	try {
-		const card = await Card.find({ player_name: 'Givussafare Rubbe' });
+		const card = await Card.findOne({ approved: false });
 		response.status(HttpStatusCodes.OK).json(card);
 	} catch (error) {
 		response
