@@ -34,10 +34,8 @@ App.use(
 	CookieSession({
 		maxAge: MAX_COOKIE_AGE,
 		keys: [process.env.COOKIE_SESSION_KEY],
-		cookie: {
-			sameSite: 'none',
-			secure: true,
-		},
+		sameSite: 'none',
+		secure: true,
 	})
 );
 
