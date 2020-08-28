@@ -10,8 +10,6 @@ const App = Express();
 const CardRoute = require('./routes/card');
 const AuthRoute = require('./routes/auth');
 const UserRoute = require('./routes/user');
-const { lang } = require('moment');
-
 const DAY_IN_MILLISECONDS = 86400000;
 const MAX_COOKIE_AGE = DAY_IN_MILLISECONDS;
 const PORT = process.env.PORT || 8080;
@@ -36,8 +34,6 @@ App.use(
 	CookieSession({
 		maxAge: MAX_COOKIE_AGE,
 		keys: [process.env.COOKIE_SESSION_KEY],
-		sameSite: 'none',
-		secure: true,
 	})
 );
 
