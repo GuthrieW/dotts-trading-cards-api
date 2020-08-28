@@ -30,6 +30,10 @@ Router.get(
 );
 
 Router.get('/check', AuthorizationCheck, (request, response) => {
+	response.cookie('foo', 'bar', {
+		sameSite: 'none',
+		secure,
+	});
 	response.status(HttpStatusCodes.OK).json({ message: 'User authorized' });
 });
 
