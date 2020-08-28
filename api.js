@@ -30,14 +30,14 @@ App.use(BodyParser.urlencoded({ extended: true }));
 App.use(BodyParser.json());
 
 // Cookie Session
-// App.use(
-// 	CookieSession({
-// 		maxAge: MAX_COOKIE_AGE,
-// 		keys: [process.env.COOKIE_SESSION_KEY],
-// 		sameSite: 'none',
-// 		secure: true,
-// 	})
-// );
+App.use(
+	CookieSession({
+		maxAge: MAX_COOKIE_AGE,
+		keys: [process.env.COOKIE_SESSION_KEY],
+		sameSite: 'none',
+		secure: true,
+	})
+);
 
 // Passport
 App.use(Passport.initialize());
