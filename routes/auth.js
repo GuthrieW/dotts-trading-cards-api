@@ -8,6 +8,10 @@ const AuthorizationCheck = (request, response, next) => {
 	if (request.user) {
 		next();
 	} else {
+		response.cookie('samesite', 'none-secure', {
+			sameSite: 'None',
+			secure: true,
+		});
 		response
 			.status(HttpStatusCodes.UNAUTHORIZED)
 			.json({ message: 'User not authorized' });
@@ -25,11 +29,19 @@ Router.get(
 	'/google/callback',
 	PassportGoogle.authenticate('google'),
 	(request, response) => {
+		response.cookie('samesite', 'none-secure', {
+			sameSite: 'None',
+			secure: true,
+		});
 		response.status(HttpStatusCodes.OK).redirect(`${process.env.UI_URL}/`);
 	}
 );
 
 Router.get('/check', AuthorizationCheck, (request, response) => {
+	response.cookie('samesite', 'none-secure', {
+		sameSite: 'None',
+		secure: true,
+	});
 	response.status(HttpStatusCodes.OK).json({ message: 'User authorized' });
 });
 
