@@ -37,7 +37,7 @@ App.use(
 		maxAge: MAX_COOKIE_AGE,
 		keys: [process.env.COOKIE_SESSION_KEY],
 		sameSite: 'none',
-		secure,
+		secure: true,
 	})
 );
 
