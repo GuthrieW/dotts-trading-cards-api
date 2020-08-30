@@ -8,8 +8,8 @@ const Router = Express.Router();
 
 Router.get('/migration', async (request, response) => {
 	try {
-		User.updateMany(
-			{},
+		await User.updateMany(
+			{ _id: { $exists: true } },
 			{
 				$set: {
 					owned_cards: [],
