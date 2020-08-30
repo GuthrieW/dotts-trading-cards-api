@@ -6,6 +6,25 @@ const Card = require('../models/Card');
 
 const Router = Express.Router();
 
+Router.get('/migration', async (request, response) => {
+	try {
+		User.updateMany(
+			{},
+			{
+				$set: {
+					owned_cards: [],
+					number_of_packs: 0,
+				},
+			}
+		);
+		response.status(HttpStatusCodes.OK).json({ message: 'It worked!' });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.METHOD_FAILURE)
+			.json({ message: 'Fuuuuuuuuuuuuck' });
+	}
+});
+
 /*
 	Return a user	
 */
@@ -97,6 +116,14 @@ Router.get('/search/:username', async (request, response) => {
 
 Router.post('/updateNumberOfPacks', async (request, response) => {
 	const userInformation = request.body;
+	const userId = request.user._id;
+
+	saveAction(
+		userId,
+		'Update number of packs',
+		`New number of packs is ${userInformation.numberOfPacks}`
+	);
+
 	try {
 		const updatedUser = await User.updateOne(
 			{ _id: userInformation._id },

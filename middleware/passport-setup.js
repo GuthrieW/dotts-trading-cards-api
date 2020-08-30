@@ -39,6 +39,7 @@ Passport.use(
 								'America/Chicago'
 							).format(),
 							can_purchase_pack: true,
+							number_of_packs: 0,
 						});
 
 						user.save().then((newUser) => {
