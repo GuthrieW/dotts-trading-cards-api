@@ -39,6 +39,9 @@ const User = Mongoose.Schema({
 		type: Boolean,
 		required: true,
 	},
+	number_of_packs: {
+		type: Number,
+	},
 });
 
 module.exports = Mongoose.model('User', User);

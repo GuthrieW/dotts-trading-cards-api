@@ -2,6 +2,7 @@ const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
 const saveAction = require('./../common/saveAction');
+const Card = require('../models/Card');
 
 const Router = Express.Router();
 
@@ -29,13 +30,11 @@ Router.get('/permissions', async (request, response) => {
 	const userIsAdmin = request.user.is_admin;
 	const userIsProcessor = request.user.is_processor;
 	const userIsSubmitter = request.user.is_submitter;
-	response
-		.status(HttpStatusCodes.OK)
-		.json({
-			is_admin: userIsAdmin,
-			is_processor: userIsProcessor,
-			is_submitter: userIsSubmitter,
-		});
+	response.status(HttpStatusCodes.OK).json({
+		is_admin: userIsAdmin,
+		is_processor: userIsProcessor,
+		is_submitter: userIsSubmitter,
+	});
 });
 
 /*
@@ -67,6 +66,48 @@ Router.get('/canPurchasePack', async (request, response) => {
 		response.status(HttpStatusCodes.OK).json(canPurchasePack);
 	} catch (error) {
 		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/* 
+	Return a user
+*/
+Router.get('/search/:username', async (request, response) => {
+	const userId = request.params.userId;
+	try {
+		const user = await User.find({
+			nsfl_username: username,
+		});
+		if (user !== undefined) {
+			response.status(HttpStatusCodes.OK).json(user);
+		} else {
+			response
+				.status(HttpStatusCodes.OK)
+				.json({ error: 'USER_NOT_FOUND' });
+		}
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+Router.post('/updateNumberOfPacks', async (request, response) => {
+	const userInformation = request.body;
+	try {
+		const updatedUser = await User.updateOne(
+			{ _id: userInformation._id },
+			{
+				$set: {
+					number_of_packs: userInformation.numberOfPacks,
+				},
+			}
+		);
+		response.status(HttpStatusCodes.OK).json(updatedUser);
+	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
