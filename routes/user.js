@@ -54,7 +54,17 @@ Router.get('/permissions', async (request, response) => {
 });
 
 Router.get('/perms', async (request, response) => {
-	response.status(HttpStatusCodes.OK).json({ message: 'perms' });
+	try {
+		const users = await User.find();
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	return;
 });
 
 /*
