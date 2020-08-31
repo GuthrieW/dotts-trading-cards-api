@@ -6,6 +6,34 @@ const { response } = require('express');
 const Router = Express.Router();
 
 /*
+	Return whether or not the user is an admin
+*/
+Router.get('/permissions', async (request, response) => {
+	const userIsAdmin = request.user.is_admin;
+	const userIsProcessor = request.user.is_processor;
+	const userIsSubmitter = request.user.is_submitter;
+	response.status(HttpStatusCodes.OK).json({
+		is_admin: userIsAdmin,
+		is_processor: userIsProcessor,
+		is_submitter: userIsSubmitter,
+	});
+});
+
+Router.get('/perms', async (request, response) => {
+	try {
+		const users = await User.find();
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	return;
+});
+
+/*
 	Return a user	
 */
 Router.get('/', async (request, response) => {
@@ -52,35 +80,6 @@ Router.get('/allUsers', async (request, response) => {
 
 	return;
 });
-
-/*
-	Return whether or not the user is an admin
-Router.get('/permissions', async (request, response) => {
-	const userIsAdmin = request.user.is_admin;
-	const userIsProcessor = request.user.is_processor;
-	const userIsSubmitter = request.user.is_submitter;
-	response.status(HttpStatusCodes.OK).json({
-		is_admin: userIsAdmin,
-		is_processor: userIsProcessor,
-		is_submitter: userIsSubmitter,
-	});
-});
-*/
-
-/*
-Router.get('/perms', async (request, response) => {
-	try {
-		const users = await User.find();
-		response.status(HttpStatusCodes.OK).json(users);
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-
-	return;
-});*/
 
 /*
 	Return the current user
