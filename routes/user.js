@@ -45,12 +45,16 @@ Router.get('/permissions', async (request, response) => {
 	// const userIsAdmin = request.user.is_admin;
 	// const userIsProcessor = request.user.is_processor;
 	// const userIsSubmitter = request.user.is_submitter;
-	response.status(HttpStatusCodes.OK).json(request.user);
+	response.status(HttpStatusCodes.OK).send(request.user);
 	// response.status(HttpStatusCodes.OK).json({
 	// 	is_admin: userIsAdmin,
 	// 	is_processor: userIsProcessor,
 	// 	is_submitter: userIsSubmitter,
 	// });
+});
+
+Router.get('/perms', async (request, response) => {
+	response.status(HttpStatusCodes.OK).json({ message: 'perms' });
 });
 
 /*
