@@ -25,15 +25,7 @@ Router.get('/currentUser', async (request, response) => {
 	Return whether or not the user is an admin
 */
 Router.get('/permissions', async (request, response) => {
-	response.json(request.user);
-	// const userIsAdmin = request.user.is_admin;
-	// const userIsProcessor = request.user.is_processor;
-	// const userIsSubmitter = request.user.is_submitter;
-	// response.status(HttpStatusCodes.OK).json({
-	// 	is_admin: userIsAdmin,
-	// 	is_processor: userIsProcessor,
-	// 	is_submitter: userIsSubmitter,
-	// });
+	response.status(HttpStatusCodes.OK).json(request.user);
 });
 
 Router.get('/perms', async (request, response) => {
@@ -91,7 +83,7 @@ Router.get('/allUsers', async (request, response) => {
 /*
 	Return whether or not the current user is able to purchase a pack
 */
-/*Router.get('/canPurchasePack', async (request, response) => {
+Router.get('/canPurchasePack', async (request, response) => {
 	const userId = request.user._id;
 
 	try {
@@ -104,12 +96,12 @@ Router.get('/allUsers', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
-});*/
+});
 
 /* 
 	Return a user
 */
-/*Router.get('/search/:username', async (request, response) => {
+Router.get('/search/:username', async (request, response) => {
 	const username = request.params.username;
 	try {
 		const user = await User.findOne({
@@ -127,7 +119,7 @@ Router.get('/allUsers', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
-});*/
+});
 
 Router.post('/updateNumberOfPacks', async (request, response) => {
 	const userInformation = request.body;
