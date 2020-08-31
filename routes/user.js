@@ -96,7 +96,7 @@ Router.get('/canPurchasePack', async (request, response) => {
 Router.get('/search/:username', async (request, response) => {
 	const username = request.params.username;
 	try {
-		const user = await User.find({
+		const user = await User.findOne({
 			nsfl_username: username,
 		});
 		if (user !== undefined) {
