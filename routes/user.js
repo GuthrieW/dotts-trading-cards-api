@@ -49,6 +49,20 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
+Router.get('/allUsers', async (request, response) => {
+	try {
+		const users = await User.find();
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	return;
+});
+
 /*
 	Get a user by id
 */
@@ -64,20 +78,6 @@ Router.get('/:userId', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
-});
-
-Router.get('/allUsers', async (request, response) => {
-	try {
-		const users = await User.find();
-		response.status(HttpStatusCodes.OK).json(users);
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-
-	return;
 });
 
 /*
