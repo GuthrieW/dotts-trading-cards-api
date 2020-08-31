@@ -5,25 +5,6 @@ const saveAction = require('./../common/saveAction');
 
 const Router = Express.Router();
 
-/*// Router.get('/migration', async (request, response) => {
-// 	try {
-// 		await User.updateMany(
-// 			{ _id: { $exists: true } },
-// 			{
-// 				$set: {
-// 					owned_cards: [],
-// 					number_of_packs: 0,
-// 				},
-// 			}
-// 		);
-// 		response.status(HttpStatusCodes.OK).json({ message: 'It worked!' });
-// 	} catch (error) {
-// 		response
-// 			.status(HttpStatusCodes.METHOD_FAILURE)
-// 			.json({ message: 'Fuuuuuuuuuuuuck' });
-// 	}
-// });*/
-
 /*
 	Return a user	
 */
