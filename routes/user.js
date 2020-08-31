@@ -41,6 +41,20 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
+Router.get('/:userId', async (request, response) => {
+	const userId = request.params.userId;
+	try {
+		const user = await User.findOne({
+			_id: userId,
+		});
+		response.status(HttpStatusCodes.OK).json(user);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
 /*
 	Return whether or not the user is an admin
 */
