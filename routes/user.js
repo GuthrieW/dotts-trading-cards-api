@@ -2,6 +2,7 @@ const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
 const saveAction = require('./../common/saveAction');
+const { response } = require('express');
 const Router = Express.Router();
 
 /*
@@ -36,6 +37,20 @@ Router.get('/:userId', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
+});
+
+Router.get('/allUsers', async (request, response) => {
+	try {
+		const users = await User.find();
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	return;
 });
 
 /*
