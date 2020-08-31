@@ -5,7 +5,7 @@ const saveAction = require('./../common/saveAction');
 
 const Router = Express.Router();
 
-// Router.get('/migration', async (request, response) => {
+/*// Router.get('/migration', async (request, response) => {
 // 	try {
 // 		await User.updateMany(
 // 			{ _id: { $exists: true } },
@@ -22,7 +22,7 @@ const Router = Express.Router();
 // 			.status(HttpStatusCodes.METHOD_FAILURE)
 // 			.json({ message: 'Fuuuuuuuuuuuuck' });
 // 	}
-// });
+// });*/
 
 /*
 	Return a user	
@@ -41,6 +41,9 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
+/*
+	Get a user by id
+*/
 Router.get('/:userId', async (request, response) => {
 	const userId = request.params.userId;
 	try {
