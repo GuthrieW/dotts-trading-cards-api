@@ -2,7 +2,6 @@ const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
 const saveAction = require('./../common/saveAction');
-
 const Router = Express.Router();
 
 /*
@@ -43,10 +42,10 @@ Router.get('/:userId', async (request, response) => {
 	Return whether or not the user is an admin
 */
 Router.get('/permissions', async (request, response) => {
-	const userIsAdmin = request.user.is_admin;
-	const userIsProcessor = request.user.is_processor;
-	const userIsSubmitter = request.user.is_submitter;
-	response.status(HttpStatusCodes.OK).json(user);
+	// const userIsAdmin = request.user.is_admin;
+	// const userIsProcessor = request.user.is_processor;
+	// const userIsSubmitter = request.user.is_submitter;
+	response.status(HttpStatusCodes.OK).json(request.user);
 	// response.status(HttpStatusCodes.OK).json({
 	// 	is_admin: userIsAdmin,
 	// 	is_processor: userIsProcessor,
