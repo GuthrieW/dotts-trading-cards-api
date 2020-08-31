@@ -46,44 +46,20 @@ Router.post('/approveCard', async (request, response) => {
 });
 
 /*
-	Find a card by id
-*/
-Router.get('/:cardId', async (request, response) => {
-	const cardId = request.params.cardId;
-	try {
-		const card = await Card.findById(cardId);
-		response.status(HttpStatusCodes.OK).json(card);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/*
-	Return all of the cards for a given player name
-*/
-Router.get('/search/:playerName', async (request, response) => {
-	const playerName = request.params.playerName;
-	try {
-		const cards = await Card.find({
-			player_name: playerName,
-		});
-		response.status(HttpStatusCodes.OK).json(cards);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/*
 	Get all cards 
 */
 Router.get('/cards', async (request, response) => {
 	try {
-		const cards = await Card.find();
-		response.status(HttpStatusCodes.OK).json(cards);
+		pulledCards = await Card.aggregate([
+			{
+				$match: {
+					approved: { $ne: false },
+					current_rotation: { $ne: false },
+				},
+			},
+			{ $sample: { size: 15 } },
+		]);
+		response.status(HttpStatusCodes.OK).json(pulledCards);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
@@ -284,6 +260,38 @@ Router.post('/update', async (request, response) => {
 			}
 		);
 		response.status(HttpStatusCodes.OK).json(newCard);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Find a card by id
+*/
+Router.get('/:cardId', async (request, response) => {
+	const cardId = request.params.cardId;
+	try {
+		const card = await Card.findById(cardId);
+		response.status(HttpStatusCodes.OK).json(card);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Return all of the cards for a given player name
+*/
+Router.get('/search/:playerName', async (request, response) => {
+	const playerName = request.params.playerName;
+	try {
+		const cards = await Card.find({
+			player_name: playerName,
+		});
+		response.status(HttpStatusCodes.OK).json(cards);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
