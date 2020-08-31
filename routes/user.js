@@ -2,8 +2,24 @@ const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
 const saveAction = require('./../common/saveAction');
-const { response } = require('express');
 const Router = Express.Router();
+
+/*
+	Return the current user
+*/
+Router.get('/currentUser', async (request, response) => {
+	const userId = request.user._id;
+
+	try {
+		const user = await User.findById(userId);
+		response.status(HttpStatusCodes.OK).json(user);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
 
 /*
 	Return whether or not the user is an admin
@@ -81,23 +97,6 @@ Router.get('/allUsers', async (request, response) => {
 	return;
 });
 
-/*
-	Return the current user
-*/
-/*Router.get('/currentUser', async (request, response) => {
-	const userId = request.user._id;
-
-	try {
-		const user = await User.findById(userId);
-		response.status(HttpStatusCodes.OK).json(user);
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-*/
 /*
 	Return whether or not the current user is able to purchase a pack
 */
