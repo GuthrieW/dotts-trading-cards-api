@@ -64,23 +64,6 @@ Router.get('/allUsers', async (request, response) => {
 });
 
 /*
-	Get a user by id
-*/
-Router.get('/:userId', async (request, response) => {
-	const userId = request.params.userId;
-	try {
-		const user = await User.findOne({
-			_id: userId,
-		});
-		response.status(HttpStatusCodes.OK).json(user);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/*
 	Return whether or not the current user is able to purchase a pack
 */
 Router.get('/canPurchasePack', async (request, response) => {
@@ -92,29 +75,6 @@ Router.get('/canPurchasePack', async (request, response) => {
 		response.status(HttpStatusCodes.OK).json(canPurchasePack);
 	} catch (error) {
 		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/* 
-	Return a user
-*/
-Router.get('/search/:username', async (request, response) => {
-	const username = request.params.username;
-	try {
-		const user = await User.findOne({
-			nsfl_username: username,
-		});
-		if (user !== undefined) {
-			response.status(HttpStatusCodes.OK).json(user);
-		} else {
-			response
-				.status(HttpStatusCodes.OK)
-				.json({ error: 'USER_NOT_FOUND' });
-		}
-	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
@@ -217,6 +177,46 @@ Router.patch('/resetCanPurchasePack', async (request, response) => {
 		}
 	} catch (error) {
 		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/*
+	Get a user by id
+*/
+Router.get('/:userId', async (request, response) => {
+	const userId = request.params.userId;
+	try {
+		const user = await User.findOne({
+			_id: userId,
+		});
+		response.status(HttpStatusCodes.OK).json(user);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
+/* 
+	Return a user
+*/
+Router.get('/search/:username', async (request, response) => {
+	const username = request.params.username;
+	try {
+		const user = await User.findOne({
+			nsfl_username: username,
+		});
+		if (user !== undefined) {
+			response.status(HttpStatusCodes.OK).json(user);
+		} else {
+			response
+				.status(HttpStatusCodes.OK)
+				.json({ error: 'USER_NOT_FOUND' });
+		}
+	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
