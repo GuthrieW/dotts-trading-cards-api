@@ -1,4 +1,4 @@
-export const NSFL_TEAMS = [
+const NSFL_TEAMS = [
 	{
 		CITY_NAME: 'Arizona',
 		TEAM_NAME: 'Outlaws',
@@ -86,3 +86,5 @@ export const NSFL_TEAMS = [
 		IMAGE_URL: 'https://i.imgur.com/dJKYUhw.png',
 	},
 ];
+
+module.exports = NSFL_TEAMS;

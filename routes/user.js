@@ -1,6 +1,8 @@
 const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
+const Card = require('./../models/Card');
+const NSFL_TEAMS = require('./../common/teams');
 const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
@@ -49,9 +51,24 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
-Router.get('/allUsers', async (request, response) => {
+Router.get('/cardAmounts', async (request, response) => {
 	try {
-		const users = await User.find();
+		let users = await User.find();
+		for (let i = 0; i < users.length; i++) {
+			let newUser = Object.assign({}, users[i]);
+
+			NSFL_TEAMS.map((team) => {
+				newUser._doc[`${team.ABBREVIATION}`] = 1;
+			});
+
+			for (const cardId in newUser.owned_cards) {
+				const card = await Card.findById(cardId);
+				newUser._doc[`${card}`] += 1;
+			}
+
+			users[i] = newUser._doc;
+		}
+
 		response.status(HttpStatusCodes.OK).json(users);
 	} catch (error) {
 		console.error(error);
