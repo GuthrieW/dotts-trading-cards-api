@@ -51,31 +51,31 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
-Router.get('/cardAmounts', async (request, response) => {
-	try {
-		const users = await User.find();
-		const usersWithNumberOfCards = users.map((user) => {
-			NSFL_TEAMS.map((team) => {
-				user[team] = 0;
-			});
+// Router.get('/cardAmounts', async (request, response) => {
+// 	try {
+// 		const users = await User.find();
+// 		const usersWithNumberOfCards = users.map((user) => {
+// 			NSFL_TEAMS.map((team) => {
+// 				user[team] = 0;
+// 			});
 
-			user.owned_cards.map((cardId) => {
-				const card = await Card.findById(cardId);
-				user[card.player_team] += 1;
-			});
+// 			user.owned_cards.map((cardId) => {
+// 				const card = await Card.findById(cardId);
+// 				user[card.player_team] += 1;
+// 			});
 
-			return user;
-		});
-		response.status(HttpStatusCodes.OK).json(usersWithNumberOfCards);
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
+// 			return user;
+// 		});
+// 		response.status(HttpStatusCodes.OK).json(usersWithNumberOfCards);
+// 	} catch (error) {
+// 		console.error(error);
+// 		response
+// 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+// 			.json({ message: error });
+// 	}
 
-	return;
-});
+// 	return;
+// });
 
 /*
 	Return whether or not the current user is able to purchase a pack
