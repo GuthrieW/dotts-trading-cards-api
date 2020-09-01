@@ -74,38 +74,72 @@ Router.get('/cards', async (request, response) => {
 */
 Router.get('/purchasePack', async (request, response) => {
 	const userId = request.user._id;
+	const userNumberOfPacks = request.user.number_of_packs;
 
-	let pulledCards = [];
+	if (userNumberOfPacks <= 0) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	let cardChances = [];
+	let pulledCardIds = [];
+
+	for (let i = 0; i < 6; i++) {
+		cardChances[i] = Math.floor(Math.random() * 10000) + 1;
+	}
 
 	try {
-		pulledCards = await Card.aggregate([
-			{
-				$match: {
-					approved: { $ne: false },
-					current_rotation: { $ne: false },
+		let cardRarity = '';
+		for (const chance in cardChances) {
+			if (chance > 0 && chance <= 4006) {
+				cardRarity = 'Backup';
+			} else if (chance > 4006 && chance <= 7181) {
+				cardRarity = 'Starter';
+			} else if (chance > 7181 && chance <= 8714) {
+				cardRarity = 'Star';
+			} else if (chance > 8714 && chance <= 9594) {
+				cardRarity = 'All-Pro';
+			} else if (chance > 9594 && chance <= 9774) {
+				cardRarity = 'Legend';
+			} else if (chance > 9774 && chance <= 9927) {
+				cardRarity = 'Award';
+			} else if (chance > 9927 && chance <= 9933) {
+				cardRarity = 'Hall of Fame';
+			} else if (chance > 9933 && chance <= 10000) {
+				cardRarity = 'Ultimus Champion';
+			} else {
+				cardRarity = 'Backup';
+			}
+
+			const pulledCard = await Card.aggregate([
+				{
+					$match: {
+						approved: { $ne: false },
+						current_rotation: { $ne: false },
+						rarity: cardRarity,
+					},
 				},
-			},
-			{ $sample: { size: 6 } },
-		]);
+				{ $sample: { size: 1 } },
+			]);
+
+			pulledCardIds.push(pulledCard._id);
+		}
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
 
-	let pulledCardIds = [];
-	for (const pulledCard of pulledCards) {
-		pulledCardIds.push(pulledCard._id);
-	}
+	let newUser = {};
 
 	try {
-		await User.updateOne(
+		newUser = await User.updateOne(
 			{ _id: userId },
-			{ $addToSet: { owned_cards: { $each: pulledCardIds } } }
-		);
-		await User.updateOne(
-			{ _id: userId },
-			{ $set: { can_purchase_pack: false } }
+			{
+				$addToSet: { owned_cards: { $each: pulledCardIds } },
+				$inc: { number_of_packs: -1 },
+			}
 		);
 	} catch (error) {
 		response
@@ -119,7 +153,12 @@ Router.get('/purchasePack', async (request, response) => {
 		`${pulledCardIds} added to user's owned_cards array`
 	);
 
-	response.status(HttpStatusCodes.OK).json(pulledCards);
+	response
+		.status(HttpStatusCodes.OK)
+		.json({
+			pulledCards: pulledCards,
+			numberOfPacks: newUser.number_of_packs,
+		});
 
 	return;
 });
