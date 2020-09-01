@@ -50,7 +50,7 @@ Router.post('/approveCard', async (request, response) => {
 */
 Router.get('/cards', async (request, response) => {
 	try {
-		pulledCards = await Card.aggregate([
+		const pulledCards = await Card.aggregate([
 			{
 				$match: {
 					approved: { $ne: false },
