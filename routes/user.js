@@ -51,6 +51,9 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
+/*
+	Get the number of cards a user has from each team
+*/
 Router.get('/cardAmounts', async (request, response) => {
 	try {
 		let users = await User.find();
@@ -58,12 +61,12 @@ Router.get('/cardAmounts', async (request, response) => {
 			let newUser = Object.assign({}, users[i]);
 
 			NSFL_TEAMS.map((team) => {
-				newUser._doc[`${team.ABBREVIATION}`] = 1;
+				newUser._doc[`${team.CITY_NAME} ${team.TEAM_NAME}`] = 0;
 			});
 
-			for (const cardId in newUser.owned_cards) {
+			for (const cardId of users[i].owned_cards) {
 				const card = await Card.findById(cardId);
-				newUser._doc[`${card}`] += 1;
+				newUser._doc[`${card.CITY_NAME} ${card.TEAM_NAME}`] += 1;
 			}
 
 			users[i] = newUser._doc;
