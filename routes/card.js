@@ -131,34 +131,30 @@ Router.get('/purchasePack', async (request, response) => {
 			.json({ message: error });
 	}
 
-	let newUser = {};
-
 	try {
-		newUser = await User.updateOne(
+		const newUser = await User.updateOne(
 			{ _id: userId },
 			{
 				$addToSet: { owned_cards: { $each: pulledCardIds } },
 				$inc: { number_of_packs: -1 },
 			}
 		);
+
+		await saveAction(
+			userId,
+			'Purchase Pack',
+			`${pulledCardIds} added to user's owned_cards array`
+		);
+
+		response.status(HttpStatusCodes.OK).json({
+			pulledCards: pulledCards,
+			numberOfPacks: newUser.number_of_packs,
+		});
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
-
-	saveAction(
-		userId,
-		'Purchase Pack',
-		`${pulledCardIds} added to user's owned_cards array`
-	);
-
-	response
-		.status(HttpStatusCodes.OK)
-		.json({
-			pulledCards: pulledCards,
-			numberOfPacks: newUser.number_of_packs,
-		});
 
 	return;
 });
