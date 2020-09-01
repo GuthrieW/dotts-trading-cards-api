@@ -1,8 +1,6 @@
 const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
-const Card = require('./../models/Card');
-const NSFL_TEAMS = require('./../common/teams');
 const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
@@ -51,31 +49,19 @@ Router.get('/', async (request, response) => {
 	return;
 });
 
-// Router.get('/cardAmounts', async (request, response) => {
-// 	try {
-// 		const users = await User.find();
-// 		const usersWithNumberOfCards = users.map((user) => {
-// 			NSFL_TEAMS.map((team) => {
-// 				user[team] = 0;
-// 			});
+Router.get('/allUsers', async (request, response) => {
+	try {
+		const users = await User.find();
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
 
-// 			user.owned_cards.map((cardId) => {
-// 				const card = await Card.findById(cardId);
-// 				user[card.player_team] += 1;
-// 			});
-
-// 			return user;
-// 		});
-// 		response.status(HttpStatusCodes.OK).json(usersWithNumberOfCards);
-// 	} catch (error) {
-// 		console.error(error);
-// 		response
-// 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-// 			.json({ message: error });
-// 	}
-
-// 	return;
-// });
+	return;
+});
 
 /*
 	Return whether or not the current user is able to purchase a pack
