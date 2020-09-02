@@ -39,6 +39,7 @@ Router.get('/migrateAllTrueAndApproved', async (request, response) => {
 			{},
 			{ $set: { current_rotation: true, approved: true } }
 		);
+		response.status(HttpStatusCodes.OK).json({ message: 'done' });
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
