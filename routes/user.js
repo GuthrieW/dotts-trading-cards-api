@@ -105,7 +105,8 @@ Router.get('/canPurchasePack', async (request, response) => {
 });
 
 Router.post('/updateNumberOfPacks', async (request, response) => {
-	const userInformation = request.body;
+	const username = request.body.nsfl_username;
+	const userNumberOfPacks = request.body.numberOfPacks;
 	const userId = request.user._id;
 
 	saveAction(
@@ -115,11 +116,11 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 	);
 
 	try {
-		const updatedUser = await User.updateOne(
-			{ _id: userInformation._id },
+		const updatedUser = await User.findOneAndUpdate(
+			{ nsfl_username: username },
 			{
 				$set: {
-					number_of_packs: userInformation.numberOfPacks,
+					number_of_packs: userNumberOfPacks,
 				},
 			}
 		);
