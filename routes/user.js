@@ -65,10 +65,6 @@ Router.get('/permissions', async (request, response) => {
 	response.status(HttpStatusCodes.OK).json(request.user);
 });
 
-Router.get('/perms', async (request, response) => {
-	response.json({ message: 'done' });
-});
-
 /*
 	Return a user	
 */
@@ -109,26 +105,28 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 	const userNumberOfPacks = request.body.numberOfPacks;
 	const userId = request.user._id;
 
-	saveAction(
-		userId,
-		'Update number of packs',
-		`New number of packs is ${userNumberOfPacks}`
-	);
-
-	try {
-		const updatedUser = await User.findOneAndUpdate(
-			{ nsfl_username: username },
-			{
-				$set: {
-					number_of_packs: userNumberOfPacks,
-				},
-			}
+	if (request.user.is_admin || request.user.is_pack_issuer) {
+		saveAction(
+			userId,
+			'Update number of packs',
+			`New number of packs is ${userNumberOfPacks}`
 		);
-		response.status(HttpStatusCodes.OK).json(updatedUser);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
+
+		try {
+			const updatedUser = await User.findOneAndUpdate(
+				{ nsfl_username: username },
+				{
+					$set: {
+						number_of_packs: userNumberOfPacks,
+					},
+				}
+			);
+			response.status(HttpStatusCodes.OK).json(updatedUser);
+		} catch (error) {
+			response
+				.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+				.json({ message: error });
+		}
 	}
 });
 

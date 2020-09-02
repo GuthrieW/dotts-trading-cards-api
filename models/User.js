@@ -16,6 +16,9 @@ const User = Mongoose.Schema({
 		type: Boolean,
 		required: true,
 	},
+	is_pack_issuer: {
+		type: Boolean,
+	},
 	google_id: {
 		type: String,
 		required: true,
