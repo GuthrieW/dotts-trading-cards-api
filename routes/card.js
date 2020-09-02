@@ -80,7 +80,7 @@ Router.get('/purchasePack', async (request, response) => {
 	if (userNumberOfPacks <= 0) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error, packs: 'Not enough packs' });
+			.json({ message: error });
 	}
 
 	let cardChances = [];
@@ -129,7 +129,7 @@ Router.get('/purchasePack', async (request, response) => {
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error, aggregate: 'Error aggregating' });
+			.json({ message: error });
 	}
 
 	try {
@@ -150,6 +150,7 @@ Router.get('/purchasePack', async (request, response) => {
 			message: error,
 			saving: 'Error saving',
 			cardIds: pulledCardIds,
+			user: newUser,
 		});
 	}
 

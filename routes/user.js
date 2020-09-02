@@ -21,6 +21,8 @@ Router.get('/cardAmounts', async (request, response) => {
 
 			for (const cardId of users[i].owned_cards) {
 				const card = await Card.findById(cardId);
+					continue;
+				}
 				newUser._doc[`${card.player_team}`] += 1;
 			}
 
