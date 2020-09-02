@@ -140,15 +140,8 @@ Router.get('/purchasePack', async (request, response) => {
 			}
 		);
 
-		await saveAction(
-			userId,
-			'Purchase Pack',
-			`${pulledCardIds} added to user's owned_cards array`
-		);
-
 		response.status(HttpStatusCodes.OK).json({
 			pulledCards: pulledCards,
-			numberOfPacks: newUser.number_of_packs,
 		});
 	} catch (error) {
 		response
