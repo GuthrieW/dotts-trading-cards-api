@@ -2,6 +2,7 @@ const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
+const Action = require('./../models/Action');
 const NSFL_TEAMS = require('./../common/teams');
 const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
@@ -30,6 +31,25 @@ const Router = Express.Router();
 // 			.json({ message: 'Fuuuuuuuuuuuuck' });
 // 	}
 // });
+
+Router.get('/removeAllSavedActions', async (request, response) => {
+	if (!request.user.is_admin) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: 'User not authorized',
+		});
+	}
+
+	try {
+		await Action.remove({});
+		response
+			.status(HttpStatusCodes.OK)
+			.json({ message: 'All saved actions removed.' });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.METHOD_FAILURE)
+			.json({ message: 'Failure' });
+	}
+});
 
 /*
 	Get the number of cards a user has from each team
