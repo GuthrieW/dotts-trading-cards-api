@@ -135,11 +135,14 @@ Router.get('/purchasePack', async (request, response) => {
 	}
 
 	try {
-		const newUser = await User.updateOne(
+		const newUser = await User.findOneAndUpdate(
 			{ _id: userId },
 			{
 				$addToSet: { owned_cards: { $each: pulledCardIds } },
 				$inc: { number_of_packs: -1 },
+			},
+			{
+				returnOriginal: false,
 			}
 		);
 
