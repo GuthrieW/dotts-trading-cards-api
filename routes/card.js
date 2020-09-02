@@ -10,7 +10,7 @@ const Router = Express.Router();
 Router.get('/migration', async (request, response) => {
 	try {
 		await Card.updateMany(
-			{ approved: { $exists: false } },
+			{ approved: null },
 			{ $set: { approved: false } }
 		);
 	} catch (error) {
@@ -21,7 +21,7 @@ Router.get('/migration', async (request, response) => {
 
 	try {
 		await Card.updateMany(
-			{ current_rotation: { $exists: false } },
+			{ current_rotation: null },
 			{ $set: { current_rotation: false } }
 		);
 	} catch (error) {
