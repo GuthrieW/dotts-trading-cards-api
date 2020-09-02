@@ -233,7 +233,7 @@ Router.get('/search/:username', async (request, response) => {
 		const user = await User.findOne({
 			nsfl_username: username,
 		});
-		if (user !== undefined) {
+		if (user) {
 			response.status(HttpStatusCodes.OK).json(user);
 		} else {
 			response
