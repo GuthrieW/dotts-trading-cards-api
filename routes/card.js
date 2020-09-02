@@ -5,6 +5,7 @@ const _filter = require('lodash/filter');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
 const saveAction = require('./../common/saveAction');
+const { pull } = require('lodash');
 
 const Router = Express.Router();
 
@@ -123,13 +124,15 @@ Router.get('/purchasePack', async (request, response) => {
 				{ $sample: { size: 1 } },
 			]);
 
-			pulledCardIds.push(pulledCard._id);
+			pulledCardIds.push(pulledCard[0]._id);
 		}
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error, aggregate: 'Error aggregating' });
 	}
+
+	console.log(pulledCardIds);
 
 	try {
 		const newUser = await User.updateOne(
@@ -142,15 +145,14 @@ Router.get('/purchasePack', async (request, response) => {
 
 		response.status(HttpStatusCodes.OK).json({
 			pulledCards: pulledCards,
+			numberOfPacks: newUser.number_of_packs,
 		});
 	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({
-				message: error,
-				saving: 'Error saving',
-				cardIds: pulledCardIds,
-			});
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+			message: error,
+			saving: 'Error saving',
+			cardIds: pulledCardIds,
+		});
 	}
 
 	return;
