@@ -132,8 +132,6 @@ Router.get('/purchasePack', async (request, response) => {
 			.json({ message: error, aggregate: 'Error aggregating' });
 	}
 
-	console.log(pulledCardIds);
-
 	try {
 		const newUser = await User.updateOne(
 			{ _id: userId },

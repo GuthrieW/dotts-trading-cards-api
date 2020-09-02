@@ -7,6 +7,38 @@ const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
 /*
+	Get the number of cards a user has from each team
+*/
+Router.get('/cardAmounts', async (request, response) => {
+	try {
+		let users = await User.find();
+		for (let i = 0; i < users.length; i++) {
+			let newUser = Object.assign({}, users[i]);
+
+			NSFL_TEAMS.map((team) => {
+				newUser._doc[`${team.CITY_NAME} ${team.TEAM_NAME}`] = 0;
+			});
+
+			for (const cardId of users[i].owned_cards) {
+				const card = await Card.findById(cardId);
+				newUser._doc[`${card.player_team}`] += 1;
+			}
+
+			users[i] = newUser._doc;
+		}
+
+		response.status(HttpStatusCodes.OK).json(users);
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	return;
+});
+
+/*
 	Return the current user
 */
 Router.get('/currentUser', async (request, response) => {
@@ -40,38 +72,6 @@ Router.get('/perms', async (request, response) => {
 Router.get('/', async (request, response) => {
 	try {
 		const users = await User.find();
-		response.status(HttpStatusCodes.OK).json(users);
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-
-	return;
-});
-
-/*
-	Get the number of cards a user has from each team
-*/
-Router.get('/cardAmounts', async (request, response) => {
-	try {
-		let users = await User.find();
-		for (let i = 0; i < users.length; i++) {
-			let newUser = Object.assign({}, users[i]);
-
-			NSFL_TEAMS.map((team) => {
-				newUser._doc[`${team.CITY_NAME} ${team.TEAM_NAME}`] = 0;
-			});
-
-			for (const cardId of users[i].owned_cards) {
-				const card = await Card.findById(cardId);
-				newUser._doc[`${card.player_team}`] += 1;
-			}
-
-			users[i] = newUser._doc;
-		}
-
 		response.status(HttpStatusCodes.OK).json(users);
 	} catch (error) {
 		console.error(error);
