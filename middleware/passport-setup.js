@@ -31,6 +31,7 @@ Passport.use(
 							is_admin: false,
 							is_processor: false,
 							is_submitter: false,
+							is_pack_issuer: false,
 							google_id: profile.id,
 							google_display_name: profile.displayName,
 							completed_collections: [],
