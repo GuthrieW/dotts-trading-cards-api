@@ -21,7 +21,7 @@ Router.get('/migration', async (request, response) => {
 
 	try {
 		await Card.updateMany(
-			{ approved: { $exists: false } },
+			{ current_rotation: { $exists: false } },
 			{ $set: { current_rotation: false } }
 		);
 	} catch (error) {
