@@ -4,7 +4,6 @@ const HttpStatusCodes = require('http-status-codes');
 const _filter = require('lodash/filter');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
-const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
 // Router.get(
@@ -281,11 +280,6 @@ Router.post('/', async (request, response) => {
 
 	try {
 		const savedCard = await card.save();
-		saveAction(
-			userId,
-			'Submit Card',
-			`${savedCard._id} added to cards collection`
-		);
 		response.status(HttpStatusCodes.OK).json(savedCard);
 	} catch (error) {
 		response
@@ -439,13 +433,6 @@ Router.delete('/:cardId', async (request, response) => {
 	}
 
 	try {
-		const cardToRemove = Card.findById(cardId);
-		saveAction(
-			userId,
-			'Delete Card',
-			`The following card was deleted from the database: ${cardToRemove}`
-		);
-
 		const removedCard = await Card.remove({ _id: cardId });
 		response.status(HttpStatusCodes.OK).json(removedCard);
 	} catch (error) {

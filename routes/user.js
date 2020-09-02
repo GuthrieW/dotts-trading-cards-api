@@ -201,36 +201,6 @@ Router.patch('/username', async (request, response) => {
 });
 
 /*
-	Update all users to be able to purchase a pack
-*/
-Router.patch('/resetCanPurchasePack', async (request, response) => {
-	const userId = request.user._id;
-	saveAction(
-		userId,
-		'Reset Can Purchase Pack Username',
-		'can_purchase_pack set to true for all users'
-	);
-
-	const currentUser = await User.findById(userId);
-	try {
-		if (currentUser.is_admin) {
-			await User.updateMany(
-				{ can_purchase_pack: false },
-				{ $set: { can_purchase_pack: true } }
-			);
-			response.status(HttpStatusCodes.OK).json({ message: 'success' });
-		} else {
-			response.status(HttpStatusCodes.OK).json({ message: 'failure' });
-		}
-	} catch (error) {
-		console.error(error);
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
-
-/*
 	Get a user by id
 */
 Router.get('/:userId', async (request, response) => {
