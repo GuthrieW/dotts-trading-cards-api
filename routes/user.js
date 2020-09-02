@@ -32,6 +32,32 @@ const Router = Express.Router();
 // 	}
 // });
 
+Router.get('/removeSubmissionPermissions', async (request, response) => {
+	if (!request.user.is_admin) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: request.user,
+		});
+	}
+
+	try {
+		await User.updateMany(
+			{},
+			{
+				$set: {
+					is_submitter: false,
+				},
+			}
+		);
+		response
+			.status(HttpStatusCodes.OK)
+			.json({ message: 'All submission perms removed.' });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.METHOD_FAILURE)
+			.json({ message: 'Failure' });
+	}
+});
+
 Router.get('/removeAllSavedActions', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
