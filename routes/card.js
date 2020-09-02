@@ -217,7 +217,7 @@ Router.post('/', async (request, response) => {
 		submission_username: cardInformation.submission_username,
 		submission_date: Moment.tz('America/Chicago').format(),
 		approved: false,
-		current_rotation: true,
+		current_rotation: false,
 	});
 
 	if (!request.user.is_admin && !request.user.is_submitter) {
