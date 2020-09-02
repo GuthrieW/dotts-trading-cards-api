@@ -5,9 +5,31 @@ const _filter = require('lodash/filter');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
 const saveAction = require('./../common/saveAction');
-const { pull } = require('lodash');
-
 const Router = Express.Router();
+
+Router.get('/migration', async (request, response) => {
+	try {
+		await Card.updateMany(
+			{ approved: { $exists: false } },
+			{ $set: { approved: false } }
+		);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: 'Approved error' });
+	}
+
+	try {
+		await Card.updateMany(
+			{ approved: { $exists: false } },
+			{ $set: { current_rotation: false } }
+		);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: 'CurrentRotation error' });
+	}
+});
 
 /*
 	Get an unapproved card
