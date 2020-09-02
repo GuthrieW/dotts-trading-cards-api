@@ -93,7 +93,7 @@ Router.get('/purchasePack', async (request, response) => {
 
 	try {
 		let cardRarity = '';
-		for (const chance in cardChances) {
+		for (const chance of cardChances) {
 			if (chance > 0 && chance <= 4006) {
 				cardRarity = 'Backup';
 			} else if (chance > 4006 && chance <= 7181) {
