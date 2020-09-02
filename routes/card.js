@@ -7,29 +7,31 @@ const Card = require('./../models/Card');
 const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
-Router.get('/migration', async (request, response) => {
-	try {
-		await Card.updateMany(
-			{ approved: null },
-			{ $set: { approved: false } }
-		);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: 'Approved error' });
-	}
+// Router.get('/fixNullOrNotExistingApproveAndCurrentRotation', async (request, response) => {
+// 	try {
+// 		await Card.updateMany(
+// 			{ approved: { $exists: false } },
+// 			// { approved: null },
+// 			{ $set: { approved: false } }
+// 		);
+// 	} catch (error) {
+// 		response
+// 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+// 			.json({ message: 'Approved error' });
+// 	}
 
-	try {
-		await Card.updateMany(
-			{ current_rotation: null },
-			{ $set: { current_rotation: false } }
-		);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: 'CurrentRotation error' });
-	}
-});
+// 	try {
+// 		await Card.updateMany(
+// 			{ current_rotation: { $exists: false } },
+// 			// { current_rotation: null },
+// 			{ $set: { current_rotation: false } }
+// 		);
+// 	} catch (error) {
+// 		response
+// 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+// 			.json({ message: 'CurrentRotation error' });
+// 	}
+// });
 
 /*
 	Get an unapproved card
@@ -116,21 +118,21 @@ Router.get('/purchasePack', async (request, response) => {
 	try {
 		let cardRarity = '';
 		for (const chance of cardChances) {
-			if (chance > 0 && chance <= 4006) {
+			if (chance > 0 && chance <= 5316) {
 				cardRarity = 'Backup';
-			} else if (chance > 4006 && chance <= 7181) {
+			} else if (chance > 5316 && chance <= 7796) {
 				cardRarity = 'Starter';
-			} else if (chance > 7181 && chance <= 8714) {
+			} else if (chance > 7796 && chance <= 8956) {
 				cardRarity = 'Star';
-			} else if (chance > 8714 && chance <= 9594) {
+			} else if (chance > 8956 && chance <= 9623) {
 				cardRarity = 'All-Pro';
-			} else if (chance > 9594 && chance <= 9774) {
+			} else if (chance > 9623 && chance <= 9768) {
 				cardRarity = 'Legend';
-			} else if (chance > 9774 && chance <= 9927) {
+			} else if (chance > 9768 && chance <= 9921) {
 				cardRarity = 'Award';
-			} else if (chance > 9927 && chance <= 9933) {
+			} else if (chance > 9921 && chance <= 9934) {
 				cardRarity = 'Hall of Fame';
-			} else if (chance > 9933 && chance <= 10000) {
+			} else if (chance > 9934 && chance <= 10000) {
 				cardRarity = 'Ultimus Champion';
 			} else {
 				cardRarity = 'Backup';
