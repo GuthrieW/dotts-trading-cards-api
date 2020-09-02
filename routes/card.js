@@ -61,6 +61,17 @@ const Router = Express.Router();
 // 	}
 // });
 
+Router.get('/allCards', async (request, response) => {
+	try {
+		const cards = await Card.find({});
+		response.status(HttpStatusCodes.OK).json(cards);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
 /*
 	Get an unapproved card
 */
