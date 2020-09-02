@@ -146,7 +146,11 @@ Router.get('/purchasePack', async (request, response) => {
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error, saving: 'Error saving' });
+			.json({
+				message: error,
+				saving: 'Error saving',
+				cardIds: pulledCardIds,
+			});
 	}
 
 	return;
