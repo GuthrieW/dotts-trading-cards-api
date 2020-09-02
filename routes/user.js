@@ -35,7 +35,7 @@ const Router = Express.Router();
 Router.get('/removeAllSavedActions', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
-			message: 'User not authorized',
+			message: request.user,
 		});
 	}
 
