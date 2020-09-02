@@ -7,45 +7,60 @@ const Card = require('./../models/Card');
 const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
-// Router.get('/fixNullOrNotExistingApproveAndCurrentRotation', async (request, response) => {
-// 	try {
-// 		await Card.updateMany(
-// 			{ approved: { $exists: false } },
-// 			// { approved: null },
-// 			{ $set: { approved: false } }
-// 		);
-// 	} catch (error) {
-// 		response
-// 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-// 			.json({ message: 'Approved error' });
+// Router.get(
+// 	'/fixNullOrNotExistingApproveAndCurrentRotation',
+// 	async (request, response) => {
+// 		if (!request.user.is_admin) {
+// 			response.status(HttpStatusCodes.UNAUTHORIZED).json({
+// 				message: 'User not authorized',
+// 			});
+// 		}
+
+// 		try {
+// 			await Card.updateMany(
+// 				{ approved: { $exists: false } },
+// 				// { approved: null },
+// 				{ $set: { approved: false } }
+// 			);
+// 		} catch (error) {
+// 			response
+// 				.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+// 				.json({ message: 'Approved error' });
+// 		}
+
+// 		try {
+// 			await Card.updateMany(
+// 				{ current_rotation: { $exists: false } },
+// 				// { current_rotation: null },
+// 				{ $set: { current_rotation: false } }
+// 			);
+// 		} catch (error) {
+// 			response
+// 				.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+// 				.json({ message: 'CurrentRotation error' });
+// 		}
+// 	}
+// );
+
+// Router.get('/migrateAllTrueAndApproved', async (request, response) => {
+// 	if (!request.user.is_admin) {
+// 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+// 			message: 'User not authorized',
+// 		});
 // 	}
 
 // 	try {
 // 		await Card.updateMany(
-// 			{ current_rotation: { $exists: false } },
-// 			// { current_rotation: null },
-// 			{ $set: { current_rotation: false } }
+// 			{},
+// 			{ $set: { current_rotation: true, approved: true } }
 // 		);
+// 		response.status(HttpStatusCodes.OK).json({ message: 'done' });
 // 	} catch (error) {
 // 		response
 // 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-// 			.json({ message: 'CurrentRotation error' });
+// 			.json({ message: error });
 // 	}
 // });
-
-Router.get('/migrateAllTrueAndApproved', async (request, response) => {
-	try {
-		await Card.updateMany(
-			{},
-			{ $set: { current_rotation: true, approved: true } }
-		);
-		response.status(HttpStatusCodes.OK).json({ message: 'done' });
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-});
 
 /*
 	Get an unapproved card
