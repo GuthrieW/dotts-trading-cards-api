@@ -85,6 +85,7 @@ Router.get('/purchasePack', async (request, response) => {
 
 	let cardChances = [];
 	let pulledCardIds = [];
+	let pulledCards = [];
 
 	for (let i = 0; i < 6; i++) {
 		cardChances[i] = Math.floor(Math.random() * 10000) + 1;
@@ -125,6 +126,7 @@ Router.get('/purchasePack', async (request, response) => {
 			]);
 
 			pulledCardIds.push(pulledCard[0]._id);
+			pulledCards.push(pulledCard[0]);
 		}
 	} catch (error) {
 		response
