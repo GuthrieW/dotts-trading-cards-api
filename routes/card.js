@@ -150,7 +150,6 @@ Router.get('/purchasePack', async (request, response) => {
 			message: error,
 			saving: 'Error saving',
 			cardIds: pulledCardIds,
-			user: newUser,
 		});
 	}
 
