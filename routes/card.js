@@ -33,6 +33,19 @@ const Router = Express.Router();
 // 	}
 // });
 
+Router.get('/migrateAllTrueAndApproved', async (request, response) => {
+	try {
+		await Card.updateMany(
+			{},
+			{ $set: { current_rotation: true, approved: true } }
+		);
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+});
+
 /*
 	Get an unapproved card
 */
