@@ -137,7 +137,7 @@ Router.get('/permissions', async (request, response) => {
 });
 
 /*
-	Return a user	
+	Return all users
 */
 Router.get('/', async (request, response) => {
 	try {
