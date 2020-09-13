@@ -174,13 +174,14 @@ Router.get('/canPurchasePack', async (request, response) => {
 Router.post('/updateNumberOfPacks', async (request, response) => {
 	const username = request.body.nsfl_username;
 	const userNumberOfPacks = request.body.numberOfPacks;
+	const userNumberOfUltimusPacks = request.body.numberOfUltimusPacks;
 	const userId = request.user._id;
 
 	if (request.user.is_admin || request.user.is_pack_issuer) {
 		saveAction(
 			userId,
 			'Update number of packs',
-			`New number of packs is ${userNumberOfPacks}`
+			`New number of packs is ${userNumberOfPacks}, and ultimus packs is ${numberOfUltimusPacks}`
 		);
 
 		try {
@@ -189,6 +190,7 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 				{
 					$set: {
 						number_of_packs: userNumberOfPacks,
+						number_of_ultimus_packs: userNumberOfUltimusPacks,
 					},
 				}
 			);
