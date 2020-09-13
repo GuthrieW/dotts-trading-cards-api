@@ -45,6 +45,9 @@ const User = Mongoose.Schema({
 	number_of_packs: {
 		type: Number,
 	},
+	number_of_ultimus_packs: {
+		type: Number,
+	},
 });
 
 module.exports = Mongoose.model('User', User);

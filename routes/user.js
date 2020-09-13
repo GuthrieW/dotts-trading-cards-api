@@ -32,31 +32,31 @@ const Router = Express.Router();
 // 	}
 // });
 
-Router.get('/removeSubmissionPermissions', async (request, response) => {
-	if (!request.user.is_admin) {
-		response.status(HttpStatusCodes.UNAUTHORIZED).json({
-			message: request.user,
-		});
-	}
+// Router.get('/removeSubmissionPermissions', async (request, response) => {
+// 	if (!request.user.is_admin) {
+// 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+// 			message: request.user,
+// 		});
+// 	}
 
-	try {
-		await User.updateMany(
-			{},
-			{
-				$set: {
-					is_submitter: false,
-				},
-			}
-		);
-		response
-			.status(HttpStatusCodes.OK)
-			.json({ message: 'All submission perms removed.' });
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.METHOD_FAILURE)
-			.json({ message: 'Failure' });
-	}
-});
+// 	try {
+// 		await User.updateMany(
+// 			{},
+// 			{
+// 				$set: {
+// 					is_submitter: false,
+// 				},
+// 			}
+// 		);
+// 		response
+// 			.status(HttpStatusCodes.OK)
+// 			.json({ message: 'All submission perms removed.' });
+// 	} catch (error) {
+// 		response
+// 			.status(HttpStatusCodes.METHOD_FAILURE)
+// 			.json({ message: 'Failure' });
+// 	}
+// });
 
 Router.get('/removeAllSavedActions', async (request, response) => {
 	if (!request.user.is_admin) {
@@ -72,6 +72,29 @@ Router.get('/removeAllSavedActions', async (request, response) => {
 			.json({ message: 'All saved actions removed.' });
 	} catch (error) {
 		response
+			.status(HttpStatusCodes.METHOD_FAILURE)
+			.json({ message: 'Failure' });
+	}
+});
+
+Router.get('addNewCardField', async (request, response) => {
+	if (!request.user.is_admin) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: request.user,
+		});
+	}
+
+	try {
+		await User.updateMany(
+			{},
+			{
+				$set: {
+					number_of_ultimus_packs: 0,
+				},
+			}
+		);
+	} catch (error) {
+		repsonse
 			.status(HttpStatusCodes.METHOD_FAILURE)
 			.json({ message: 'Failure' });
 	}

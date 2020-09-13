@@ -41,6 +41,7 @@ Passport.use(
 							).format(),
 							can_purchase_pack: true,
 							number_of_packs: 0,
+							number_of_ultimus_packs: 0,
 						});
 
 						user.save().then((newUser) => {
