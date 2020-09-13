@@ -181,7 +181,7 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 		saveAction(
 			userId,
 			'Update number of packs',
-			`New number of packs is ${userNumberOfPacks}, and ultimus packs is ${numberOfUltimusPacks}`
+			`New number of packs is ${userNumberOfPacks}, and ultimus packs is ${userNumberOfUltimusPacks}`
 		);
 
 		try {
