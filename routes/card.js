@@ -203,7 +203,7 @@ Router.get('/purchaseUltimusPack', async (request, response) => {
 				$inc: { number_of_ultimus_packs: -1 },
 			},
 			{
-				returnOriginal: false,
+				new: true,
 			}
 		);
 
@@ -294,7 +294,7 @@ Router.get('/purchasePack', async (request, response) => {
 				$inc: { number_of_packs: -1 },
 			},
 			{
-				returnOriginal: false,
+				new: true,
 			}
 		);
 

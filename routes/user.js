@@ -192,6 +192,9 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 						number_of_packs: userNumberOfPacks,
 						number_of_ultimus_packs: userNumberOfUltimusPacks,
 					},
+				},
+				{
+					new: true,
 				}
 			);
 			response.status(HttpStatusCodes.OK).json(updatedUser);
