@@ -77,29 +77,6 @@ Router.get('/removeAllSavedActions', async (request, response) => {
 	}
 });
 
-Router.get('/addNewCardField', async (request, response) => {
-	if (!request.user.is_admin) {
-		response.status(HttpStatusCodes.UNAUTHORIZED).json({
-			message: request.user,
-		});
-	}
-
-	try {
-		await User.updateMany(
-			{},
-			{
-				$set: {
-					number_of_ultimus_packs: 0,
-				},
-			}
-		);
-	} catch (error) {
-		repsonse
-			.status(HttpStatusCodes.METHOD_FAILURE)
-			.json({ message: 'Failure' });
-	}
-});
-
 /*
 	Get the number of cards a user has from each team
 */
