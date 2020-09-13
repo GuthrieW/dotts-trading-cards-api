@@ -77,7 +77,7 @@ Router.get('/removeAllSavedActions', async (request, response) => {
 	}
 });
 
-Router.get('addNewCardField', async (request, response) => {
+Router.get('/addNewCardField', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
 			message: request.user,
