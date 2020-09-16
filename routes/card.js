@@ -496,7 +496,7 @@ Router.get('/testing/:userId', async (request, response) => {
 	let allCards = [];
 
 	try {
-		const user = await User.findById(userId);
+		const user = await User.findById('5f500d1ecdf9ec0017b86286');
 		userCards = user.owned_cards;
 	} catch (error) {
 		response
@@ -505,25 +505,38 @@ Router.get('/testing/:userId', async (request, response) => {
 	}
 
 	try {
-		allCards = await Card.find({ player_team: teamName });
+		const cards = await Card.find({
+			_id: { $in: userCards w},
+			player_team: teamName,
+		});
+		response.status(HttpStatusCodes.OK).json(cards);
 	} catch (error) {
 		response
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
+	// await Card.find
 
-	let filteredCards = [];
-	for (const ownedCard of userCards) {
-		const foundCard = _.find(allCards, (card) => {
-			if (ownedCard === card._id) {
-				return card;
-			}
-		});
+	// try {
+	// 	allCards = await Card.find({ player_team: teamName });
+	// } catch (error) {
+	// 	response
+	// 		.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+	// 		.json({ message: error });
+	// }
 
-		if (foundCard) {
-			filteredCards.push(foundCard);
-		}
-	}
+	// let filteredCards = [];
+	// for (const ownedCard of userCards) {
+	// 	const foundCard = _.find(allCards, (card) => {
+	// 		if (ownedCard === card._id) {
+	// 			return card;
+	// 		}
+	// 	});
+
+	// 	if (foundCard) {
+	// 		filteredCards.push(foundCard);
+	// 	}
+	// }
 
 	// for (const card of allCards) {
 	// 	if (userCards.includes(card._id)) {
