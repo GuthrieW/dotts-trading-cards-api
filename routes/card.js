@@ -517,9 +517,16 @@ Router.post('/team/:userId', async (request, response) => {
 			.json({ message: error });
 	}
 
-	const filteredCards = _filter(allCards, (card) => {
-		return userCards.includes(card._id);
-	});
+	let filteredCards = [];
+	for (const card of allCards) {
+		if (userCards.includes(card._id)) {
+			filteredCards.push(card);
+		}
+	}
+
+	// const filteredCards = _filter(allCards, (card) => {
+	// 	return userCards.includes(card._id);
+	// });
 
 	response.status(HttpStatusCodes.OK).json(filteredCards);
 
