@@ -528,7 +528,7 @@ Router.post('/team/:userId', async (request, response) => {
 	// 	return userCards.includes(card._id);
 	// });
 
-	response.status(HttpStatusCodes.OK).json(filteredCards);
+	response.status(HttpStatusCodes.OK).json(userCards);
 
 	return;
 });
