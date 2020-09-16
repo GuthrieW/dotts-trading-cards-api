@@ -1,7 +1,7 @@
 const Express = require('express');
 const Moment = require('moment-timezone');
 const HttpStatusCodes = require('http-status-codes');
-const _filter = require('lodash/filter');
+const _ = require('lodash');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
 const Router = Express.Router();
@@ -504,22 +504,32 @@ Router.get('/testing/:userId', async (request, response) => {
 			.json({ message: error });
 	}
 
-	// try {
-	// 	allCards = await Card.find({ player_team: teamName });
-	// } catch (error) {
-	// 	response
-	// 		.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-	// 		.json({ message: error });
-	// }
+	try {
+		allCards = await Card.find({ player_team: teamName });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
 
-	// let filteredCards = [];
+	let filteredCards = [];
+	for (const ownedCard of userCards) {
+		const foundCard = _.find(allCards, (card) => {
+			return ownedCard === card._id;
+		});
+
+		if (foundCard) {
+			filteredCards.push(foundCard);
+		}
+	}
+
 	// for (const card of allCards) {
 	// 	if (userCards.includes(card._id)) {
 	// 		filteredCards.push(card);
 	// 	}
 	// }
 
-	response.status(HttpStatusCodes.OK).json(userCards);
+	response.status(HttpStatusCodes.OK).json(filteredCards);
 
 	return;
 });
