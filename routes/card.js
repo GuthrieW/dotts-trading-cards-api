@@ -418,9 +418,9 @@ Router.post('/team', async (request, response) => {
 	}
 
 	let filteredCards = [];
-	for (const ownedCard in usersCards) {
-		if (allCards.includes(ownedCard._id)) {
-			filteredCards.push(ownedCard);
+	for (const card in allCards) {
+		if (userCards.includes(card._id)) {
+			filteredCards.push(card);
 		}
 	}
 
