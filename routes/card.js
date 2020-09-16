@@ -391,7 +391,7 @@ Router.post('/', async (request, response) => {
 });
 
 /*
-	Get all cards a the current user owns from a given team
+	Get all cards the current user owns from a given team
 */
 Router.post('/team', async (request, response) => {
 	const userId = request.user._id;
@@ -416,6 +416,10 @@ Router.post('/team', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
+
+	const filteredCards = _filter(allCards, (card) => {
+		return userCards.includes(card._id);
+	});
 
 	response.status(HttpStatusCodes.OK).json(filteredCards);
 
