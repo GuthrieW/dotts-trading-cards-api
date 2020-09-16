@@ -496,7 +496,7 @@ Router.get('/testing/:userId', async (request, response) => {
 	let allCards = [];
 
 	try {
-		const user = await User.findById('5f500d1ecdf9ec0017b86286');
+		const user = await User.findById(userId);
 		userCards = user.owned_cards;
 	} catch (error) {
 		response
@@ -506,7 +506,7 @@ Router.get('/testing/:userId', async (request, response) => {
 
 	try {
 		const cards = await Card.find({
-			_id: { $in: userCards w},
+			_id: { $in: userCards },
 			player_team: teamName,
 		});
 		response.status(HttpStatusCodes.OK).json(cards);
