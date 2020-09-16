@@ -490,66 +490,7 @@ Router.get('/search/:playerName', async (request, response) => {
 	}
 });
 
-Router.get('/testing/:userId', async (request, response) => {
-	const userId = request.params.userId;
-	const teamName = 'Chicago Butchers';
-	let userCards = [];
-	let allCards = [];
-
-	try {
-		const user = await User.findById(userId);
-		userCards = user.owned_cards;
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
-
-	let filteredCards = [];
-	for (const cardId in userCards) {
-		const card = await Card.find({
-			_id: cardId,
-			player_team: teamName,
-		});
-
-		if (card) {
-			filteredCards.push(card);
-		}
-	}
-
-	// await Card.find
-
-	// try {
-	// 	allCards = await Card.find({ player_team: teamName });
-	// } catch (error) {
-	// 	response
-	// 		.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-	// 		.json({ message: error });
-	// }
-
-	// let filteredCards = [];
-	// for (const ownedCard of userCards) {
-	// 	const foundCard = _.find(allCards, (card) => {
-	// 		if (ownedCard === card._id) {
-	// 			return card;
-	// 		}
-	// 	});
-
-	// 	if (foundCard) {
-	// 		filteredCards.push(foundCard);
-	// 	}
-	// }
-
-	// for (const card of allCards) {
-	// 	if (userCards.includes(card._id)) {
-	// 		filteredCards.push(card);
-	// 	}
-	// }
-
-	response.status(HttpStatusCodes.OK).json(filteredCards);
-
-	return;
-});
+Router.get('/testing/:userId', async (request, response) => {});
 
 /*
 	Get all cards a given user owns from a given team
