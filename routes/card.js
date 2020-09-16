@@ -4,6 +4,7 @@ const HttpStatusCodes = require('http-status-codes');
 const _ = require('lodash');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
+const { filter } = require('lodash');
 const Router = Express.Router();
 
 // Router.get(
@@ -504,17 +505,18 @@ Router.get('/testing/:userId', async (request, response) => {
 			.json({ message: error });
 	}
 
-	try {
-		const cards = await Card.find({
-			_id: { $in: userCards },
+	let filteredCards = [];
+	for (const cardId in userCards) {
+		const card = await Card.find({
+			_id: cardId,
 			player_team: teamName,
 		});
-		response.status(HttpStatusCodes.OK).json(cards);
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
+
+		if (card) {
+			filteredCards.push(card);
+		}
 	}
+
 	// await Card.find
 
 	// try {
