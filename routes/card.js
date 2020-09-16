@@ -4,7 +4,6 @@ const HttpStatusCodes = require('http-status-codes');
 const _filter = require('lodash/filter');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
-const { request } = require('express');
 const Router = Express.Router();
 
 // Router.get(
@@ -488,6 +487,41 @@ Router.get('/search/:playerName', async (request, response) => {
 			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
 			.json({ message: error });
 	}
+});
+
+Router.get('/testing/:userId', async (request, response) => {
+	const userId = request.params.userId;
+	const teamName = 'Chicago Butchers';
+	let userCards = [];
+	let allCards = [];
+
+	try {
+		const user = await User.findById(userId);
+		userCards = user.owned_cards;
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	try {
+		allCards = await Card.find({ player_team: teamName });
+	} catch (error) {
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+
+	let filteredCards = [];
+	for (const card of allCards) {
+		if (userCards.includes(card._id)) {
+			filteredCards.push(card);
+		}
+	}
+
+	response.status(HttpStatusCodes.OK).json(filteredCards);
+
+	return;
 });
 
 /*
