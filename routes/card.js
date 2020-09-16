@@ -504,22 +504,22 @@ Router.get('/testing/:userId', async (request, response) => {
 			.json({ message: error });
 	}
 
-	try {
-		allCards = await Card.find({ player_team: teamName });
-	} catch (error) {
-		response
-			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-			.json({ message: error });
-	}
+	// try {
+	// 	allCards = await Card.find({ player_team: teamName });
+	// } catch (error) {
+	// 	response
+	// 		.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+	// 		.json({ message: error });
+	// }
 
-	let filteredCards = [];
-	for (const card of allCards) {
-		if (userCards.includes(card._id)) {
-			filteredCards.push(card);
-		}
-	}
+	// let filteredCards = [];
+	// for (const card of allCards) {
+	// 	if (userCards.includes(card._id)) {
+	// 		filteredCards.push(card);
+	// 	}
+	// }
 
-	response.status(HttpStatusCodes.OK).json(filteredCards);
+	response.status(HttpStatusCodes.OK).json(userCards);
 
 	return;
 });
