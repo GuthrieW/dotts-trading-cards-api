@@ -515,7 +515,9 @@ Router.get('/testing/:userId', async (request, response) => {
 	let filteredCards = [];
 	for (const ownedCard of userCards) {
 		const foundCard = _.find(allCards, (card) => {
-			return ownedCard === card._id;
+			if (ownedCard === card._id) {
+				return card;
+			}
 		});
 
 		if (foundCard) {
