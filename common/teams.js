@@ -21,6 +21,14 @@ const NSFL_TEAMS = [
 		IMAGE_URL: 'https://i.imgur.com/ZEuDUWh.png',
 	},
 	{
+		CITY_NAME: 'Berlin',
+		TEAM_NAME: 'Fire Salamanders',
+		ABBREVIATION: 'BER',
+		IMAGE_PATH: './../../images/team-banners/berlin-fire-salamanders.png',
+		IMAGE_URL:
+			'https://cdn.discordapp.com/attachments/747977609454944339/754901898594746429/BERbanner.png',
+	},
+	{
 		CITY_NAME: 'Chicago',
 		TEAM_NAME: 'Butchers',
 		ABBREVIATION: 'CHI',
@@ -48,6 +56,14 @@ const NSFL_TEAMS = [
 		ABBREVIATION: 'NOLA',
 		IMAGE_PATH: './../../images/team-banners/new-orleans-second-line.png',
 		IMAGE_URL: 'https://i.imgur.com/IY7NW3K.png',
+	},
+	{
+		CITY_NAME: 'New York',
+		TEAM_NAME: 'Silverbacks',
+		ABBREVIATION: 'NY',
+		IMAGE_PATH: './../../images/team-banners/new-york-silverbacks.png',
+		IMAGE_URL:
+			'https://cdn.discordapp.com/attachments/747977675355979857/754901932727861288/NYSbanner.png',
 	},
 	{
 		CITY_NAME: 'Orange County',
