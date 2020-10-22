@@ -246,25 +246,29 @@ Router.get('/purchasePack', async (request, response) => {
 	try {
 		let cardRarity = '';
 		for (const chance of cardChances) {
-			if (chance > 0 && chance <= 4531) {
+			if (chance > 0 && chance <= 4208) {
 				cardRarity = 'Backup';
-			} else if (chance > 4531 && chance <= 7091) {
+			} else if (chance > 4208 && chance <= 6768) {
 				cardRarity = 'Starter';
-			} else if (chance > 7796 && chance <= 8751) {
+			} else if (chance > 6768 && chance <= 8428) {
 				cardRarity = 'Star';
-			} else if (chance > 8751 && chance <= 9491) {
+			} else if (chance > 8428 && chance <= 9168) {
 				cardRarity = 'All-Pro';
-			} else if (chance > 9491 && chance <= 9656) {
+			} else if (chance > 9168 && chance <= 9333) {
 				cardRarity = 'Legend';
-			} else if (chance > 9656 && chance <= 9809) {
+			} else if (chance > 9333 && chance <= 9486) {
 				cardRarity = 'Award';
-			} else if (chance > 9809 && chance <= 9822) {
+			} else if (chance > 9486 && chance <= 9501) {
 				cardRarity = 'Hall of Fame';
-			} else if (chance > 9822 && chance <= 9892) {
+			} else if (chance > 9501 && chance <= 9571) {
 				cardRarity = 'Ultimus Champion';
-			} else if (chance > 9822 && chance <= 10000) {
+			} else if (chance > 9571 && chance <= 9679) {
 				cardRarity = 'Holograph Expansion'
-			}else {
+			} else if (chance > 9679 && chance <= 9819) {
+				cardRarity = 'Autograph Rookie';
+			} else if (chance > 9819 && chance <= 10000) {
+				cardRarity = 'Captain';
+			} else {
 				cardRarity = 'Backup';
 			}
 
