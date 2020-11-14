@@ -155,22 +155,28 @@ Router.get('/purchaseUltimusPack', async (request, response) => {
 	try {
 		let cardRarity = '';
 		for (const chance of cardChances) {
-			if (chance > 0 && chance <= 5182) {
+			if (chance > 0 && chance <= 3878) {
 				cardRarity = 'Backup';
-			} else if (chance > 5182 && chance <= 7662) {
+			} else if (chance > 3878 && chance <= 6438) {
 				cardRarity = 'Starter';
-			} else if (chance > 7662 && chance <= 8822) {
+			} else if (chance > 6438 && chance <= 8098) {
 				cardRarity = 'Star';
-			} else if (chance > 8822 && chance <= 9489) {
+			} else if (chance > 8098 && chance <= 8838) {
 				cardRarity = 'All-Pro';
-			} else if (chance > 9489 && chance <= 9634) {
+			} else if (chance > 8838 && chance <= 9003) {
 				cardRarity = 'Legend';
-			} else if (chance > 9634 && chance <= 9787) {
+			} else if (chance > 9003 && chance <= 9156) {
 				cardRarity = 'Award';
-			} else if (chance > 9787 && chance <= 9800) {
+			} else if (chance > 9156 && chance <= 9171) {
 				cardRarity = 'Hall of Fame';
-			} else if (chance > 9800 && chance <= 10000) {
+			} else if (chance > 9171 && chance <= 9571) {
 				cardRarity = 'Ultimus Champion';
+			} else if (chance > 9571 && chance <= 9679) {
+				cardRarity = 'Holograph Expansion'
+			} else if (chance > 9679 && chance <= 9819) {
+				cardRarity = 'Autograph Rookie';
+			} else if (chance > 9819 && chance <= 10000) {
+				cardRarity = 'Captain';
 			} else {
 				cardRarity = 'Backup';
 			}
