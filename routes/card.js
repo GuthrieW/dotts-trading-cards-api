@@ -62,6 +62,24 @@ const Router = Express.Router();
 // 	}
 // });
 
+Router.get('/allCardsForMith', async(request, response) => {
+	try {
+		const cards = await Card.find({
+			approved: true,
+			current_rotation: true
+		}, {
+			player_name: 1,
+			player_team: 1,
+			rarity: 1,
+			image_url: 1
+		});
+
+		response.status(HttpStatusCodes.OK).json(cards);
+	} catch (error) {
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({message:error});
+	}
+});
+
 Router.get('/allCards', async (request, response) => {
 	try {
 		const cards = await Card.find({});
