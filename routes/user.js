@@ -4,7 +4,6 @@ const User = require('./../models/User');
 const Card = require('./../models/Card');
 const Action = require('./../models/Action');
 const NSFL_TEAMS = require('./../common/teams');
-const saveAction = require('./../common/saveAction');
 const Router = Express.Router();
 
 // Router.get('/removedAllCardsAndPacks', async (request, response) => {
@@ -178,12 +177,6 @@ Router.post('/updateNumberOfPacks', async (request, response) => {
 	const userId = request.user._id;
 
 	if (request.user.is_admin || request.user.is_pack_issuer) {
-		saveAction(
-			userId,
-			'Update number of packs',
-			`New number of packs is ${userNumberOfPacks}, and ultimus packs is ${userNumberOfUltimusPacks}`
-		);
-
 		try {
 			const updatedUser = await User.findOneAndUpdate(
 				{ nsfl_username: username },
@@ -231,11 +224,6 @@ Router.patch('/username', async (request, response) => {
 	const userId = request.user._id;
 	const oldUsername = request.user.nsfl_username;
 	const newUsername = request.body.nsfl_username;
-	saveAction(
-		userId,
-		'Change Username',
-		`NSFL username changed from ${oldUsername} to ${newUsername}`
-	);
 
 	try {
 		await User.updateOne(
