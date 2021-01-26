@@ -8,6 +8,7 @@ const { filter } = require('lodash');
 const { request } = require('express');
 const Router = Express.Router();
 const DottsCards = require('./../models/DottsCards');
+const mongoose = require('mongoose');
 
 // Router.get(
 // 	'/fixNullOrNotExistingApproveAndCurrentRotation',
@@ -70,7 +71,7 @@ Router.get('/convertToDottsCards', async(request, response) => {
 
 		for (const card of cards) {
 			const DottsCard = new DottsCards({
-				_id: card._id,
+				_id: mongoose.Types.ObjectId(card._id),
 				playerName: card.player_name,
 				playerTeam: card.player_team,
 				rarity: card.rarity,
