@@ -31,7 +31,7 @@ Router.get('/printUsers', async (request, response) => {
 				isSubmitter: user.is_submitter || false,
 			})
 
-			response.status(HttpStatusCodes.OK).json({ firstUser: DottsAccounts });
+			response.status(HttpStatusCodes.OK).json({ firstUser: DottsAccount });
 			await DottsAccount.save();
 		}
 
