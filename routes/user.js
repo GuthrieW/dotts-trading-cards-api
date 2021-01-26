@@ -29,7 +29,7 @@ Router.get('/printUsers', async (request, response) => {
 				isProcessor: user.is_processor || false,
 				isPackIssuer: user.is_pack_issuer || false,
 				isSubmitter: user.is_submitter || false,
-			})
+			});
 
 			await DottsAccount.save();
 		}

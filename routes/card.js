@@ -70,6 +70,7 @@ Router.get('/convertToDottsCards', async(request, response) => {
 
 		for (const card of cards) {
 			const DottsCard = new DottsCards({
+				_id: card._id,
 				playerName: card.player_name,
 				playerTeam: card.player_team,
 				rarity: card.rarity,

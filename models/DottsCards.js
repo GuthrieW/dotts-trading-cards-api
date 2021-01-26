@@ -1,6 +1,10 @@
 const Mongoose = require('mongoose');
 
 const DottsCards = Mongoose.Schema({
+	_id: {
+		type: String,
+		required: true
+	},
 	playerName: {
 		type: String,
 		required: true,
