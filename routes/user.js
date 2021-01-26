@@ -18,7 +18,7 @@ Router.get('/printUsers', async (request, response) => {
 		const users = await User.find({});
 
 
-		for (const user in users) {
+		for (const user of users) {
 			const DottsAccount = new DottsAccounts({
 				providerAccountId: user.google_id,
 				isflUsername: user.nsfl_username || '',
