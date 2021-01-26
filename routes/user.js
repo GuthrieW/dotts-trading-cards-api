@@ -16,10 +16,25 @@ Router.get('/printUsers', async (request, response) => {
 
 	try {
 		const users = await User.find({});
-		response.status(HttpStatusCodes.OK).json({
-			usersObjects: users
-		});
 
+		for (const user in users) {
+			const DottsAccount = new DottsAccounts({
+				providerAccountId: user.google_id,
+				isflUsername: user.nsfl_username,
+				ownedCards: user.owned_cards,
+				ownedRegularPacks: user.number_of_packs,
+				ownedUltimusPacks: user.number_of_ultimus_packs,
+				isAdmin: user.is_admin,
+				isProcessor: user.is_processor,
+				isPackIssuer: user.is_pack_issuer,
+				isSubmitter: user.is_submitter,
+			})
+
+			await DottsAccount.save();
+		}
+
+		const savedDottsAccounts = await DottsAccounts.find({});
+		response.status(HttpStatusCodes.OK).json({ newDottsAccounts: savedDottsAccounts });
 	} catch (error) {
 		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
 	}
