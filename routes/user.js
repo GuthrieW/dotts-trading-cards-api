@@ -20,14 +20,14 @@ Router.get('/printUsers', async (request, response) => {
 		for (const user in users) {
 			const DottsAccount = new DottsAccounts({
 				providerAccountId: user.google_id,
-				isflUsername: user.nsfl_username,
-				ownedCards: user.owned_cards,
-				ownedRegularPacks: user.number_of_packs,
-				ownedUltimusPacks: user.number_of_ultimus_packs,
-				isAdmin: user.is_admin,
-				isProcessor: user.is_processor,
-				isPackIssuer: user.is_pack_issuer,
-				isSubmitter: user.is_submitter,
+				isflUsername: user.nsfl_username || '',
+				ownedCards: user.owned_cards || [],
+				ownedRegularPacks: user.number_of_packs || 0,
+				ownedUltimusPacks: user.number_of_ultimus_packs || 0,
+				isAdmin: user.is_admin || false,
+				isProcessor: user.is_processor || false,
+				isPackIssuer: user.is_pack_issuer || false,
+				isSubmitter: user.is_submitter || false,
 			})
 
 			await DottsAccount.save();
