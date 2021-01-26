@@ -17,6 +17,7 @@ Router.get('/printUsers', async (request, response) => {
 	try {
 		const users = await User.find({});
 
+
 		for (const user in users) {
 			const DottsAccount = new DottsAccounts({
 				providerAccountId: user.google_id,
@@ -30,6 +31,7 @@ Router.get('/printUsers', async (request, response) => {
 				isSubmitter: user.is_submitter || false,
 			})
 
+			response.status(HttpStatusCodes.OK).json({ firstUser: DottsAccounts });
 			await DottsAccount.save();
 		}
 
