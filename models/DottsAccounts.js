@@ -38,4 +38,4 @@ const DottsAccounts = Mongoose.Schema({
     },
 });
 
-module.exports = Mongoose.model('DottsAccounts', DottsAccounts);
+module.exports = Mongoose.model('dotts_accounts', DottsAccounts);

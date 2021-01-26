@@ -5,7 +5,9 @@ const _ = require('lodash');
 const User = require('./../models/User');
 const Card = require('./../models/Card');
 const { filter } = require('lodash');
+const { request } = require('express');
 const Router = Express.Router();
+const DottsCards = require('./../models/DottsCards');
 
 // Router.get(
 // 	'/fixNullOrNotExistingApproveAndCurrentRotation',
@@ -61,6 +63,32 @@ const Router = Express.Router();
 // 			.json({ message: error });
 // 	}
 // });
+
+Router.get('/convertToDottsCards', async(request, response) => {
+	try {
+		const cards = await Card.find({});
+
+		for (const card of cards) {
+			const DottsCard = new DottsCards({
+				playerName: card.player_name,
+				playerTeam: card.player_team,
+				rarity: card.rarity,
+				imageUrl: card.image_url,
+				submissionUsername: card.submission_username,
+				submissionDate: card.submission_date,
+				approved: card.approved,
+				currentRotation: card.current_rotation,
+			});
+
+			await DottsCard.save();
+		}
+
+		const savedDottsCards = await DottsCards.find({});
+		response.status(HttpStatusCodes.OK).json({ newDottsCards: savedDottsCards });
+	} catch (error) {
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
+	}
+});
 
 Router.get('/allCardsForMith', async(request, response) => {
 	try {
