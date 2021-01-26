@@ -1,10 +1,29 @@
 const Express = require('express');
 const HttpStatusCodes = require('http-status-codes');
 const User = require('./../models/User');
+const DottsAccounts = require('./../models/DottsAccounts');
 const Card = require('./../models/Card');
 const Action = require('./../models/Action');
 const NSFL_TEAMS = require('./../common/teams');
 const Router = Express.Router();
+
+Router.get('/printUsers', async (request, response) => {
+	if (!request.user.is_admin) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: 'User not authorized',
+		});
+	}
+
+	try {
+		const users = await User.find({});
+		response.status(HttpStatusCodes.OK).json({
+			usersObjects: users
+		});
+
+	} catch (error) {
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
+	}
+});
 
 // Router.get('/removedAllCardsAndPacks', async (request, response) => {
 // 	if (!request.user.is_admin) {
