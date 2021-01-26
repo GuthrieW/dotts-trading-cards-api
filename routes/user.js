@@ -21,7 +21,7 @@ Router.get('/printUsers', async (request, response) => {
 		for (const user of users) {
 			const DottsAccount = new DottsAccounts({
 				providerAccountId: user.google_id,
-				isflUsername: user.nsfl_username || '',
+				isflUsername: user.nsfl_username || new String(),
 				ownedCards: user.owned_cards || [],
 				ownedRegularPacks: user.number_of_packs || 0,
 				ownedUltimusPacks: user.number_of_ultimus_packs || 0,

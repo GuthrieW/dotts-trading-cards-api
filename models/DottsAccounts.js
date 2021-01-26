@@ -7,7 +7,6 @@ const DottsAccounts = Mongoose.Schema({
     },
     isflUsername: {
         type: String,
-        required: true,
     }, 
     ownedCards: {
         type: [String],
