@@ -45,7 +45,7 @@ Router.get('/migrateUsers', async (request, response) => {
 				isPackIssuer: user.is_pack_issuer || false,
 				isSubmitter: user.is_submitter || false,
 			});
-			currentError = 'gen dottsaccount';
+			currentError = DottsAccount;
 
 			await DottsAccount.save();
 			currentError = 'saved';
