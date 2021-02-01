@@ -36,7 +36,7 @@ Router.get('/migrateUsers', async (request, response) => {
 
 			const DottsAccount = new DottsAccounts({
 				email: email,
-				isflUsername: user.nsfl_username || "",
+				isflUsername: user.nsfl_username || "none",
 				password: hashedPassword,
 				ownedCards: user.owned_cards || [],
 				newestCards: [],
