@@ -1,14 +1,20 @@
 const Mongoose = require('mongoose');
 
 const DottsAccounts = Mongoose.Schema({
-    providerAccountId: {
+    email: {
         type: String,
-        required: true,
     },
     isflUsername: {
         type: String,
-    }, 
+    },
+    password: {
+        type: String,
+    },
     ownedCards: {
+        type: [String],
+        required: true,
+    },
+    newestCards: {
         type: [String],
         required: true,
     },

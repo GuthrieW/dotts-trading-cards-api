@@ -7,7 +7,7 @@ const Action = require('./../models/Action');
 const NSFL_TEAMS = require('./../common/teams');
 const Router = Express.Router();
 
-Router.get('/printUsers', async (request, response) => {
+Router.get('/migrateUsers', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
 			message: 'User not authorized',
@@ -20,9 +20,11 @@ Router.get('/printUsers', async (request, response) => {
 
 		for (const user of users) {
 			const DottsAccount = new DottsAccounts({
-				providerAccountId: user.google_id || new String(),
+				email: new String(user.nsfl_username + "@gmail.com"),
 				isflUsername: user.nsfl_username || new String(),
+				password: new String(user.nsfl_username + "-password"),
 				ownedCards: user.owned_cards || [],
+				newestCards: [],
 				ownedRegularPacks: user.number_of_packs || 0,
 				ownedUltimusPacks: user.number_of_ultimus_packs || 0,
 				isAdmin: user.is_admin || false,
