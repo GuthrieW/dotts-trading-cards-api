@@ -26,7 +26,7 @@ Router.get('/migrateUsers', async (request, response) => {
 			const salt = await bcrypt.genSalt(10);
 			currentError = 'gen salt';
 
-			const password = new String("password");
+			const password = "password";
 			currentError = 'gen password';
 
 			const hashedPassword = await bcrypt.hash(password, salt);
