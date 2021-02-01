@@ -32,9 +32,11 @@ Router.get('/migrateUsers', async (request, response) => {
 			const hashedPassword = await bcrypt.hash(password, salt);
 			currentError = 'gen hashedpassword';
 
+			const email = user.nsfl_username + "@gmail.com";
+
 			const DottsAccount = new DottsAccounts({
-				email: new String(user.nsfl_username + "@gmail.com"),
-				isflUsername: user.nsfl_username || new String(),
+				email: email,
+				isflUsername: user.nsfl_username || "",
 				password: hashedPassword,
 				ownedCards: user.owned_cards || [],
 				newestCards: [],
