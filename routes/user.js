@@ -5,6 +5,7 @@ const DottsAccounts = require('./../models/DottsAccounts');
 const Card = require('./../models/Card');
 const Action = require('./../models/Action');
 const NSFL_TEAMS = require('./../common/teams');
+const bcrypt = require('bcrypt');
 const Router = Express.Router();
 
 Router.get('/migrateUsers', async (request, response) => {
@@ -19,10 +20,12 @@ Router.get('/migrateUsers', async (request, response) => {
 
 
 		for (const user of users) {
+			const salt = await bcrypt.genSalt(10)
+			const hashedPassword = await bcrypt.hash(new String(user.nsfl_username + "-password"), salt)
 			const DottsAccount = new DottsAccounts({
 				email: new String(user.nsfl_username + "@gmail.com"),
 				isflUsername: user.nsfl_username || new String(),
-				password: new String(user.nsfl_username + "-password"),
+				password: hashedPassword,
 				ownedCards: user.owned_cards || [],
 				newestCards: [],
 				ownedRegularPacks: user.number_of_packs || 0,
