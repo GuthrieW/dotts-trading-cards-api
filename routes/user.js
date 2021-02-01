@@ -20,8 +20,8 @@ Router.get('/migrateUsers', async (request, response) => {
 
 
 		for (const user of users) {
-			const salt = await bcrypt.genSalt(10)
-			const hashedPassword = await bcrypt.hash(new String(user.nsfl_username + "-password"), salt)
+			const salt = await bcrypt.genSalt(10);
+			const hashedPassword = await bcrypt.hash(new String(user.nsfl_username + "-password"), salt);
 			const DottsAccount = new DottsAccounts({
 				email: new String(user.nsfl_username + "@gmail.com"),
 				isflUsername: user.nsfl_username || new String(),
