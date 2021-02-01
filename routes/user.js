@@ -15,13 +15,23 @@ Router.get('/migrateUsers', async (request, response) => {
 		});
 	}
 
+	let currentError = '';
 	try {
 		const users = await User.find({});
-
+		currentError = 'got users';
 
 		for (const user of users) {
+			currentError = 'looping';
+
 			const salt = await bcrypt.genSalt(10);
-			const hashedPassword = await bcrypt.hash(new String(user.nsfl_username + "-password"), salt);
+			currentError = 'gen salt';
+
+			const password = new String(user.nsfl_username + "-password");
+			currentError = 'gen password';
+
+			const hashedPassword = await bcrypt.hash(password, salt);
+			currentError = 'gen hashedpassword';
+
 			const DottsAccount = new DottsAccounts({
 				email: new String(user.nsfl_username + "@gmail.com"),
 				isflUsername: user.nsfl_username || new String(),
@@ -35,14 +45,16 @@ Router.get('/migrateUsers', async (request, response) => {
 				isPackIssuer: user.is_pack_issuer || false,
 				isSubmitter: user.is_submitter || false,
 			});
+			currentError = 'gen dottsaccount';
 
 			await DottsAccount.save();
+			currentError = 'saved';
 		}
 
 		const savedDottsAccounts = await DottsAccounts.find({});
 		response.status(HttpStatusCodes.OK).json({ newDottsAccounts: savedDottsAccounts });
 	} catch (error) {
-		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: currentError });
 	}
 });
 

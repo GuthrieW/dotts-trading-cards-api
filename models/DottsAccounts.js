@@ -3,12 +3,15 @@ const Mongoose = require('mongoose');
 const DottsAccounts = Mongoose.Schema({
     email: {
         type: String,
+        required: true,
     },
     isflUsername: {
         type: String,
+        required: true,
     },
     password: {
         type: String,
+        required: true,
     },
     ownedCards: {
         type: [String],
