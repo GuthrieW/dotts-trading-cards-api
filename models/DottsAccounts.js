@@ -29,10 +29,10 @@ const DottsAccounts = Mongoose.Schema({
         type: Number,
         required: true,
     },
-    // isSubscribed: {
-    //     type: Boolean,
-    //     required: true,
-    // },
+    isSubscribed: {
+        type: Boolean,
+        required: true,
+    },
     isAdmin: {
         type: Boolean,
         required: true,
