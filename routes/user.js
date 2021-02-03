@@ -8,6 +8,32 @@ const NSFL_TEAMS = require('./../common/teams');
 const bcrypt = require('bcrypt');
 const Router = Express.Router();
 
+Router.get('/migrateAgain', async (request, response) => {
+	if (!request.user.is_admin) {
+		response.status(HttpStatusCodes.UNAUTHORIZED).json({
+			message: 'User not authorized',
+		});
+	}
+
+
+	try {
+		const users = await DottsAccounts.updateMany(
+			{}, 
+			{
+				$set: {
+					isSubscribed: false,
+				}
+			}
+		);
+	} catch (error) {
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'error' });
+
+	}
+
+	const savedDottsAccounts = await DottsAccounts.find({});
+	response.status(HttpStatusCodes.OK).json({ newDottsAccounts: savedDottsAccounts });
+})
+
 Router.get('/migrateUsers', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
