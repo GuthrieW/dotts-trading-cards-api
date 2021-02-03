@@ -42,6 +42,7 @@ Router.get('/migrateUsers', async (request, response) => {
 				newestCards: [],
 				ownedRegularPacks: user.number_of_packs || 0,
 				ownedUltimusPacks: user.number_of_ultimus_packs || 0,
+				isSubscribed: false,
 				isAdmin: user.is_admin || false,
 				isProcessor: user.is_processor || false,
 				isPackIssuer: user.is_pack_issuer || false,

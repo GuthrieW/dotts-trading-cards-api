@@ -1,3 +1,4 @@
+const { truncate } = require('lodash');
 const Mongoose = require('mongoose');
 
 const DottsAccounts = Mongoose.Schema({
@@ -27,6 +28,10 @@ const DottsAccounts = Mongoose.Schema({
     },
     ownedUltimusPacks: {
         type: Number,
+        required: true,
+    },
+    isSubscribed: {
+        type: Boolean,
         required: true,
     },
     isAdmin: {
