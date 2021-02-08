@@ -45,15 +45,19 @@ Router.patch('/migrateUser', async (request, response) => {
 			isflUsername: newUserInformation.username,
 		});
 
-		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(usernameCheck);
-		return;
+		if (usernameCheck) {
+			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(usernameCheck);
+			return;
+		}
 
 		const emailCheck = await DottsAccounts.findOne({
 			email: newUserInformation.email,
 		});
 
-		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(emailCheck);
-		return;
+		if (emailCheck) {
+			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(emailCheck);
+			return;
+		}
 
 		const salt = await bcrypt.genSalt(10);
 		const password = newUserInformation.password;
