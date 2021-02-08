@@ -34,7 +34,7 @@ Router.get('/migrateAgain', async (request, response) => {
 	response.status(HttpStatusCodes.OK).json({ newDottsAccounts: savedDottsAccounts });
 })
 
-Router.get('/migrateUser', async (request, response) => {
+Router.patch('/migrateUser', async (request, response) => {
 	const userId = request.user._id;
 	const newUserInformation = request.body;
 
@@ -45,14 +45,14 @@ Router.get('/migrateUser', async (request, response) => {
 			isflUsername: newUserInformation.username,
 		});
 
-		response.status(HttpStatusCodes.OK).json(usernameCheck);
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(usernameCheck);
 		return;
 
 		const emailCheck = await DottsAccounts.findOne({
 			email: newUserInformation.email,
 		});
 
-		response.status(HttpStatusCodes.OK).json(emailCheck);
+		response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(emailCheck);
 		return;
 
 		const salt = await bcrypt.genSalt(10);
