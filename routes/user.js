@@ -34,6 +34,56 @@ Router.get('/migrateAgain', async (request, response) => {
 	response.status(HttpStatusCodes.OK).json({ newDottsAccounts: savedDottsAccounts });
 })
 
+Router.get('/migrateUser', async (request, response) => {
+	const userId = request.user._id;
+	const newUserInformation = request.body;
+
+	try {
+		const user = await User.findById(userId);
+
+		const usernameCheck = await DottsAccounts.findOne({
+			isflUsername: newUserInformation.username,
+		});
+
+		response.status(HttpStatusCodes.OK).json(usernameCheck);
+		return;
+
+		const emailCheck = await DottsAccounts.findOne({
+			email: newUserInformation.email,
+		});
+
+		response.status(HttpStatusCodes.OK).json(emailCheck);
+		return;
+
+		const salt = await bcrypt.genSalt(10);
+		const password = newUserInformation.password;
+		const hashedPassword = await bcrypt.hash(password, salt);
+
+		const DottsAccount = new DottsAccounts({
+			email: newUserInformation.email,
+			isflUsername: newUserInformation.username,
+			password: hashedPassword,
+			ownedCards: user.owned_cards,
+			newestCards: [],
+			ownedRegularPacks: user.number_of_packs || 0,
+			ownedUltimusPacks: user.number_of_ultimus_packs || 0,
+			isSubscribed: false,
+			isAdmin: user.is_admin || false,
+			isProcessor: user.is_processor || false,
+			isPackIssuer: user.is_pack_issuer || false,
+			isSubmitter: user.is_submitter || false,
+		});
+
+		const newDottsAccount = await DottsAccount.save();
+		response.status(HttpStatusCodes.OK).json({ newDottsAccounts: newDottsAccount });
+	} catch (error) {
+		console.error(error);
+		response
+			.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: error });
+	}
+})
+
 Router.get('/migrateUsers', async (request, response) => {
 	if (!request.user.is_admin) {
 		response.status(HttpStatusCodes.UNAUTHORIZED).json({
