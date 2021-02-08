@@ -46,7 +46,9 @@ Router.patch('/migrateUser', async (request, response) => {
 		});
 
 		if (usernameCheck) {
-			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(usernameCheck);
+			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ 
+				error: 'An account with that username already exists. If this is your username please contact caltroit_red_flames.'
+			});
 			return;
 		}
 
@@ -55,7 +57,9 @@ Router.patch('/migrateUser', async (request, response) => {
 		});
 
 		if (emailCheck) {
-			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(emailCheck);
+			response.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+				error: 'An account with that email already exists. If this is your email please contact caltroit_red_flames.'
+			});
 			return;
 		}
 
